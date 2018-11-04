@@ -1,8 +1,8 @@
+const path = require("path");
 const config = require("./src/config");
 
 module.exports = {
   mode: config.isDev ? "development" : "production",
-
   module: {
     rules: [
       {
@@ -74,7 +74,14 @@ module.exports = {
       }
     ]
   },
-
+  output: {
+    filename: "[name].[hash].js",
+    path: path.resolve("./dist"),
+    publicPath: "/"
+  },
+  resolve: {
+    extensions: [".mjs", ".web.js", ".js", ".json", ".web.jsx", ".jsx"]
+  },
   devServer: {
     host: "localhost",
     port: 3000,

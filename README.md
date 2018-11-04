@@ -1,17 +1,19 @@
-Kriptovaliutu pinigine
----
-Setup
----
- 
+## Kriptovaliutu pinigine
+
+## Setup
+
 ```
 yarn install
 ```
- 
- 
- 
-Compile
----
- 
+
+## Compile
+
 ```
 yarn run compile
+```
+
+## Start dev server
+
+```
+yarn start
 ```

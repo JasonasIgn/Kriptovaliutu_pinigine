@@ -1,1 +1,11 @@
 @import "./bootstrap.css";
+@import "./config.scss";
+
+@import "./components/header.scss";
+
+@import "./pages/index.scss";
+
+.main {
+  height: 100%;
+  width: 100%;
+}

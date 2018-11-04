@@ -101,6 +101,33 @@ module.exports = {
         ]
       },
       {
+        test: /\.(png|jpe?g)$/,
+        exclude: /\/fonts\//,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "img/[name].[hash:16].[ext]"
+            }
+          },
+          {
+            loader: "sharp-image-webpack-loader",
+            options: {
+              cache: false,
+              withMetadata: true,
+              jpegQuality: 80,
+              jpegProgressive: true,
+              pngProgressive: true,
+              pngCompressionLevel: 6,
+              webpQuality: 80,
+              webpAlphaQuality: 100,
+              tiffQuality: 80
+            }
+          }
+        ]
+      },
+
+      {
         test: /\.html$/,
         use: [
           {

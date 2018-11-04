@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary header">
@@ -36,10 +37,10 @@ const Index = () => (
         </li>
       </ul>
       <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-        Registracija
+        <Link to={`/register`}>Registracija</Link>
       </button>
       <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-        Prisijungti
+        <Link to={`/login`}>Prisijungti</Link>
       </button>
     </div>
   </nav>

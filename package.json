@@ -1,0 +1,8 @@
+{
+  "name": "kriptovaliutu_pinigine",
+  "version": "1.0.0",
+  "description": "Internetine kriptovaliutu pinigine ir keitykla",
+  "main": "index.js",
+  "author": "Kriptosifras",
+  "license": "MIT"
+}

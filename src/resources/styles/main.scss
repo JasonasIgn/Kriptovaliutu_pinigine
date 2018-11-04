@@ -4,8 +4,12 @@
 @import "./components/header.scss";
 
 @import "./pages/index.scss";
+@import "./pages/login.scss";
 
 .main {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+  min-height: 100vh;
 }

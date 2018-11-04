@@ -5,37 +5,37 @@ const Register = () => (
     <div className="container">
       <form>
         <h1 className="title"> Registracija</h1>
-        <div class="form-group">
-          <label class="col-form-label" for="firstName">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="firstName">
             Vardas
           </label>
-          <input type="text" class="form-control" id="firstName" />
+          <input type="text" className="form-control" id="firstName" />
         </div>
-        <div class="form-group">
-          <label class="col-form-label" for="lastName">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="lastName">
             Pavardė
           </label>
-          <input type="text" class="form-control" id="lastName" />
+          <input type="text" className="form-control" id="lastName" />
         </div>
-        <div class="form-group">
-          <label class="col-form-label" for="email">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="email">
             El. paštas
           </label>
-          <input type="email" class="form-control" id="email" />
+          <input type="email" className="form-control" id="email" />
         </div>
-        <div class="form-group">
-          <label class="col-form-label" for="password">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="password">
             Slaptažodis
           </label>
-          <input type="password" class="form-control" id="password" />
+          <input type="password" className="form-control" id="password" />
         </div>
-        <div class="form-group">
-          <label class="col-form-label" for="repeatPassword">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="repeatPassword">
             Pakartokite slaptažodį
           </label>
-          <input type="password" class="form-control" id="repeatPassword" />
+          <input type="password" className="form-control" id="repeatPassword" />
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" className="btn btn-primary">
           Registruotis
         </button>
       </form>

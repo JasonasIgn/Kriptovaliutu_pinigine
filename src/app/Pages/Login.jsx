@@ -5,19 +5,19 @@ const Login = () => (
     <div className="container">
       <form>
         <h1 className="title"> Prisijungti</h1>
-        <div class="form-group">
-          <label class="col-form-label" for="email">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="email">
             El. paštas
           </label>
-          <input type="email" class="form-control" id="email" />
+          <input type="email" className="form-control" id="email" />
         </div>
-        <div class="form-group">
-          <label class="col-form-label" for="password">
+        <div className="form-group">
+          <label className="col-form-label" htmlFor="password">
             Slaptažodis
           </label>
-          <input type="password" class="form-control" id="password" />
+          <input type="password" className="form-control" id="password" />
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" className="btn btn-primary">
           Prisijungti
         </button>
       </form>

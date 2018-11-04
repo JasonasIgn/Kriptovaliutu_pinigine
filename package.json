@@ -11,5 +11,11 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "webpack": "^4.24.0"
+  },
+  "scripts": {
+    "compile": "webpack --mode development"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.2"
   }
 }

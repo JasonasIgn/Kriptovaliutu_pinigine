@@ -1,5 +1,6 @@
 const path = require("path");
 const config = require("./src/config");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: config.isDev ? "development" : "production",
@@ -74,6 +75,7 @@ module.exports = {
       }
     ]
   },
+  entry: "./src/app/index.js",
   output: {
     filename: "[name].[hash].js",
     path: path.resolve("./dist"),
@@ -90,5 +92,6 @@ module.exports = {
     hot: false,
     https: false,
     noInfo: false
-  }
+  },
+  plugins: [new HtmlWebpackPlugin({ template: "./src/app/index.html" })]
 };

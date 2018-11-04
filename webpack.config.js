@@ -59,6 +59,48 @@ module.exports = {
         ]
       },
       {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "css/[name].[hash:16].css"
+            }
+          },
+          {
+            loader: "extract-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              minimize: config.isDev,
+              sourceMap: config.isDev
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: config.isDev,
+              ident: "postcss",
+              plugins: loader => [
+                require("postcss-import")({ root: loader.resourcePath }),
+                require("postcss-preset-env")(),
+                require("cssnano")()
+              ]
+            }
+          },
+          {
+            loader: "resolve-url-loader"
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
         test: /\.html$/,
         use: [
           {

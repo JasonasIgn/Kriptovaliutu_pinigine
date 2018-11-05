@@ -5,6 +5,7 @@ import Layout from "./Components/Layout";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Dashboard from "./Components/Dashboard";
+import CryptocurrencyList from "./Pages/CryptocurrencyList";
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class App extends Component {
           <Route path="/logged" exact component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/cryptocurrency-list" component={CryptocurrencyList} />
         </Layout>
       </Router>
     );

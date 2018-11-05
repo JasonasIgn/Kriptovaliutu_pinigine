@@ -1,0 +1,24 @@
+.cryptocurrency-list {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  .container {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    flex-direction: column;
+    max-width: 100%;
+    .title {
+      text-align: center;
+      padding: 30px;
+    }
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    img {
+      height: 28px;
+      cursor: pointer;
+    }
+  }
+}

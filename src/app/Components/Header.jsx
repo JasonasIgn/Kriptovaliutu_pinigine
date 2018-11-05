@@ -26,9 +26,9 @@ const Index = () => (
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">
+          <Link className="nav-link" to="/cryptocurrency-list">
             Kriptovaliutos
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">

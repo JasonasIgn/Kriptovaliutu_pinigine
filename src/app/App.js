@@ -21,7 +21,11 @@ class App extends Component {
           <Route path="/logged" exact component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path="/cryptocurrency-list" component={CryptocurrencyList} />
+          <Route
+            exact
+            path="/cryptocurrency-list"
+            component={CryptocurrencyList}
+          />
         </Layout>
       </Router>
     );

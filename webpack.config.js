@@ -144,7 +144,9 @@ module.exports = {
       }
     ]
   },
-  entry: "./src/app/index.js",
+  entry: {
+    app: "./src/app/index.js"
+  },
   output: {
     filename: "[name].[hash].js",
     path: path.resolve("./dist"),
@@ -157,10 +159,17 @@ module.exports = {
     host: "localhost",
     port: 3000,
     compress: true,
-    historyApiFallback: false,
+    historyApiFallback: true,
     hot: false,
     https: false,
     noInfo: false
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./src/app/index.html" })]
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "./src/app/index.html",
+      inject: true,
+      chunks: ["app"]
+    })
+  ]
 };

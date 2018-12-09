@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Index = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary header">
-    <a className="navbar-brand" href="#">
+    <a className="navbar-brand" href="/">
       Kriptošifras
     </a>
     <button

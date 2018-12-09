@@ -16,7 +16,7 @@ class Kriptovaliuta{
     public function __construct($db){
         $this->conn = $db;
     }
-<<<<<<< HEAD:Backend/api/objects/Kriptovaliuta.php
+
 
 
     public function Getcryptocurrences(){
@@ -32,6 +32,6 @@ class Kriptovaliuta{
                 FROM Kriptovaliuta"
     }
 }
-=======
+
 }
->>>>>>> 4b160a4135f2cc8fccdd6f2581e239f66af921c8:Backend/api/objects/kriptovaliuta.php
+

@@ -1,5 +1,5 @@
 <?php
-class Paskyra{
+class Kriptovaliuta{
  
     // database connection and table name
     private $conn;

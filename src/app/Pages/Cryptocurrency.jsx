@@ -1,126 +1,132 @@
 import React from "react";
-import InfoIcon from "../../resources/images/icon-info.png";
 import request from "superagent";
 class Cryptocurrency extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      information: null,
-      cryptocurrencies: [],
-      start: 0,
-      limit: 20
+      cryptocurrency: null,
+      id: null
     };
   }
   getInformation() {
-    let cryptoArray = [];
     request
-      .get("https://api.coinlore.com/api/tickers/")
-      .query({ start: this.state.start })
-      .query({ limit: this.state.limit })
+      .get("https://api.coinlore.com/api/ticker/")
+      .query({ id: this.state.id })
       .then(res => {
-        this.setState({ information: res.body });
-        res.body.data.forEach((item, index) => {
-          let cryptoItem = (
-            <tr key={index}>
-              <th scope="row">{item.rank}</th>
-              <td>{item.name}</td>
-              <td>{item.price_usd || "-"} $</td>
-              <td className="flex-row">
-                {item.market_cap_usd || "-"} $
-                <a href={`/cryptocurrency?id=${item.id}`}>
-                  <img src={InfoIcon} />
-                </a>
-              </td>
-            </tr>
-          );
-          cryptoArray = [...cryptoArray, cryptoItem];
-        });
-        this.setState({ cryptocurrencies: cryptoArray });
+        this.setState({ cryptocurrency: res.body[0] });
       });
-  }
-  handleNextPage() {
-    if (
-      Number(this.state.start) + this.state.limit * 2 >
-      this.state.information.info.coins_num
-    ) {
-      this.setState(
-        {
-          start:
-            Number(this.state.information.info.coins_num) -
-            Number(this.state.limit)
-        },
-        () => this.getInformation()
-      );
-    } else {
-      this.setState(
-        {
-          start: Number(this.state.start) + Number(this.state.limit)
-        },
-        () => this.getInformation()
-      );
-    }
-  }
-  handlePreviousPage() {
-    if (Number(this.state.start) - this.state.limit < 0) {
-      this.setState({ start: 0 }, () => this.getInformation());
-    } else {
-      this.setState(
-        {
-          start: Number(this.state.start) - this.state.limit
-        },
-        () => this.getInformation()
-      );
-    }
   }
   componentWillMount() {
     const urlParams = new URLSearchParams(window.location.search);
-    const start = Number(urlParams.get("start"));
-    const limit = Number(urlParams.get("limit"));
-    this.setState({ start: start || 0, limit: limit || 20 }, () =>
-      this.getInformation()
-    );
+    const id = Number(urlParams.get("id"));
+    this.setState({ id: id || null }, () => this.getInformation());
   }
 
   render() {
-    if (!this.state.information) return <div />;
+    if (!this.state.cryptocurrency) return <div />;
     return (
-      <div className="cryptocurrency-list">
+      <div className="cryptocurrency">
         <div className="container">
-          <h1 className="title">Kriptovaliutos</h1>
+          <h1 className="title">
+            <img
+              src={`https://c1.coinlore.com/img/25x25/${
+                this.state.cryptocurrency.nameid
+              }.png`}
+              style={{ width: 40, height: 40, marginRight: 5 }}
+            />
+            {this.state.cryptocurrency.name}
+          </h1>
+
+          <div style={{ fontSize: 24 }}>Bendra informacija</div>
           <table className="table table-hover">
-            <thead>
+            <tbody>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Pavadinimas</th>
-                <th scope="col">Kaina</th>
-                <th scope="col">Rinkos riba</th>
+                <th>Vieta</th>
+                <td>{this.state.cryptocurrency.rank}</td>
               </tr>
-            </thead>
-            <tbody>{this.state.cryptocurrencies}</tbody>
+              <tr>
+                <th>Pavadinimas</th>
+                <td>{this.state.cryptocurrency.name}</td>
+              </tr>
+              <tr>
+                <th>Trumpinys</th>
+                <td>{this.state.cryptocurrency.symbol}</td>
+              </tr>
+              <tr>
+                <th>Dabartinis kiekis</th>
+                <td>
+                  {this.state.cryptocurrency.tsupply}{" "}
+                  {this.state.cryptocurrency.symbol}
+                </td>
+              </tr>
+              <tr>
+                <th>Didžiausias kiekis</th>
+                <td>
+                  {this.state.cryptocurrency.msupply}{" "}
+                  {this.state.cryptocurrency.symbol}
+                </td>
+              </tr>
+            </tbody>
           </table>
-          <div className="navigation-container">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => this.handlePreviousPage()}
-            >
-              {"<"}
-            </button>
-            {`${
-              this.state.start % 10 == 0
-                ? this.state.start + 1
-                : this.state.start
-            } - ${Number(this.state.start) + this.state.limit} iš ${
-              this.state.information.info.coins_num
-            }`}
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => this.handleNextPage()}
-            >
-              {">"}
-            </button>
-          </div>
+          <div style={{ fontSize: 24 }}>Kainos informacija</div>
+          <table className="table table-hover">
+            <tbody>
+              <tr>
+                <th>Kaina USD</th>
+                <td> {this.state.cryptocurrency.price_usd} $</td>
+              </tr>
+              <tr>
+                <th>Kaina BTC</th>
+                <td> {this.state.cryptocurrency.price_btc} BTC</td>
+              </tr>
+              <tr>
+                <th>Kainos keitimasis</th>
+                <th />
+              </tr>
+              <tr>
+                <th>Valandos bėgyje</th>
+                <th
+                  style={{
+                    color:
+                      this.state.cryptocurrency.percent_change_1h > 0
+                        ? "green"
+                        : "red"
+                  }}
+                >
+                  {" "}
+                  {this.state.cryptocurrency.percent_change_1h} %{" "}
+                </th>
+              </tr>
+              <tr>
+                <th>Paros bėgyje</th>
+                <th
+                  style={{
+                    color:
+                      this.state.cryptocurrency.percent_change_24h > 0
+                        ? "green"
+                        : "red"
+                  }}
+                >
+                  {" "}
+                  {this.state.cryptocurrency.percent_change_24h} %{" "}
+                </th>
+              </tr>
+              <tr>
+                <th>Savaitės bėgyje</th>
+                <th
+                  style={{
+                    color:
+                      this.state.cryptocurrency.percent_change_7d > 0
+                        ? "green"
+                        : "red"
+                  }}
+                >
+                  {" "}
+                  {this.state.cryptocurrency.percent_change_7d} %{" "}
+                </th>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );

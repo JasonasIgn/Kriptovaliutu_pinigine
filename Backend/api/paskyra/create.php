@@ -13,8 +13,7 @@ include_once '../config/database.php';
 include_once '../objects/paskyra.php';
  
 $database = new Database();
-$db = $database->getConnection();
- 
+$db = $database->getConnection();;
 $paskyra = new Paskyra($db);
  
 // get posted data
@@ -22,17 +21,16 @@ $data = json_decode(file_get_contents("php://input"));
  
 // make sure data is not empty
 if(
-    !empty($data->vardas) &&
-    !empty($data->pavarde) &&
-    !empty($data->el_pastas) &&
-    !empty($data->slaptazodis)
+    !empty($data->Vardas) &&
+    !empty($data->Pavarde) &&
+    !empty($data->El_pastas) &&
+    !empty($data->Slaptazodis)
 ){
  
-    // set product property values
-    $paskyra->vardas = $data->vardas;
-    $paskyra->pavarde = $data->pavarde;
-    $paskyra->el_pastas = $data->el_pastas;
-    $paskyra->slaptazodis = $data->slaptazodis;
+    $paskyra->Vardas = $data->Vardas;
+    $paskyra->Pavarde = $data->Pavarde;
+    $paskyra->El_pastas = $data->El_pastas;
+    $paskyra->Slaptazodis = $data->Slaptazodis;
  
     // create the product
     if($paskyra->create()){

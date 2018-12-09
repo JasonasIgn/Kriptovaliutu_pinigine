@@ -30,22 +30,24 @@ class Paskyra{
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					Vardas=:vardas, Pavarde=:pavarde, El_pastas=:el_pastas, Slaptazodis=:slaptazodis";
+					Vardas=:Vardas, Pavarde=:Pavarde, El_pastas=:El_pastas, Slaptazodis=:Slaptazodis, Id=:Id";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
-	 
+		
 		// sanitize
-		$this->vardas=htmlspecialchars(strip_tags($this->vardas));
-		$this->pavarde=htmlspecialchars(strip_tags($this->pavarde));
-		$this->el_pastas=htmlspecialchars(strip_tags($this->el_pastas));
-		$this->slaptazodis=htmlspecialchars(strip_tags($this->slaptazodis));
+		$this->Id=htmlspecialchars(strip_tags($this->Id));
+		$this->Vardas=htmlspecialchars(strip_tags($this->Vardas));
+		$this->Pavarde=htmlspecialchars(strip_tags($this->Pavarde));
+		$this->El_pastas=htmlspecialchars(strip_tags($this->El_pastas));
+		$this->Slaptazodis=htmlspecialchars(strip_tags($this->Slaptazodis));
 	 
 		// bind values
-		$stmt->bindParam(":name", $this->vardas);
-		$stmt->bindParam(":price", $this->pavarde);
-		$stmt->bindParam(":description", $this->el_pastas);
-		$stmt->bindParam(":category_id", $this->slaptazodis);
+		$stmt->bindParam(":Id", $this->Id);
+		$stmt->bindParam(":Vardas", $this->Vardas);
+		$stmt->bindParam(":Pavarde", $this->Pavarde);
+		$stmt->bindParam(":El_pastas", $this->El_pastas);
+		$stmt->bindParam(":Slaptazodis", $this->Slaptazodis);
 	 
 		// execute query
 		if($stmt->execute()){

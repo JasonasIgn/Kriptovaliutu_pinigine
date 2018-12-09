@@ -32,13 +32,17 @@ class Kriptovaliuta{
     public function FindCryptocurrency($name){
         $sql = "SELECT *
                 FROM Kriptovaliuta
-                WHERE Kriptovaliuta.Pavadinimas = $name;
+                WHERE Kriptovaliuta.Pavadinimas = $name";
 
     }
 
-  }
-}
+    public function CompareCryptocurrences($lefttCurrency, $rightCurrency){
+        $sql = "SELECT *
+        FROM Kriptovaliuta
+        WHERE Kriptovaliuta.Pavadinimas in ( $lefttCurrency, $rightCurrency ) ";
 
+
+    }
 
 }
 

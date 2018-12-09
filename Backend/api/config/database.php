@@ -1,0 +1,26 @@
+<?php
+class Database{
+ 
+    // specify your own database credentials
+    private $host = "stud.if.ktu.lt";
+    private $db_name = "ignjas";
+    private $username = "ignjas";
+    private $password = "ietuF1ahtie0aiPh";
+    public $conn;
+ 
+    // get the database connection
+    public function getConnection(){
+ 
+        $this->conn = null;
+ 
+        try{
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn->exec("set names utf8");
+        }catch(PDOException $exception){
+            echo "Connection error: " . $exception->getMessage();
+        }
+ 
+        return $this->conn;
+    }
+}
+?>

@@ -1,7 +1,7 @@
 import React from "react";
 import InfoIcon from "../../resources/images/icon-info.png";
 import request from "superagent";
-class CryptocurrencyList extends React.Component {
+class Cryptocurrency extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,4 +126,4 @@ class CryptocurrencyList extends React.Component {
     );
   }
 }
-export default CryptocurrencyList;
+export default Cryptocurrency;

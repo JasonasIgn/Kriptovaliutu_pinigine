@@ -1,0 +1,19 @@
+@import "./bootstrap.css";
+@import "./config.scss";
+
+@import "./components/header.scss";
+@import "./components/dashboard.scss";
+
+@import "./pages/index.scss";
+@import "./pages/login.scss";
+@import "./pages/register.scss";
+@import "./pages/cryptocurrency-list.scss";
+@import "./pages/cryptocurrency.scss";
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+}

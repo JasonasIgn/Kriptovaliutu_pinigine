@@ -16,6 +16,10 @@ class Kriptovaliuta{
     public function __construct($db){
         $this->conn = $db;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5e8b3adca75d92d7a9cdcd3479d66f0b94db477a
 
 
     public function Getcryptocurrences(){
@@ -41,4 +45,10 @@ class Kriptovaliuta{
 
 
 }
+<<<<<<< HEAD
 }
+=======
+
+}
+
+>>>>>>> 5e8b3adca75d92d7a9cdcd3479d66f0b94db477a

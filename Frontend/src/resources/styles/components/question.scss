@@ -1,0 +1,11 @@
+.question {
+  flex: 1;
+  cursor: pointer;
+  background-image: url("../../images/question.png");
+  background-size: contain;
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  width: 70px;
+  height: 70px;
+}

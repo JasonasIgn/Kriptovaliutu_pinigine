@@ -11,15 +11,22 @@ import Cryptocurrency from "./Pages/Cryptocurrency";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      user: 1
+    };
   }
 
   render() {
     return (
       <Router>
         <Layout>
-          <Route path="/" exact component={Index} />
-          <Route path="/logged" exact component={Dashboard} />
+          <Route
+            exact
+            path="/"
+            render={() =>
+              this.state.user ? <Dashboard user={this.state.user} /> : <Index />
+            }
+          />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/cryptocurrency" component={Cryptocurrency} />

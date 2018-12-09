@@ -7,6 +7,7 @@ import Register from "./Pages/Register";
 import Dashboard from "./Components/Dashboard";
 import CryptocurrencyList from "./Pages/CryptocurrencyList";
 import Cryptocurrency from "./Pages/Cryptocurrency";
+import MailList from "./Pages/MailList";
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/cryptocurrency" component={Cryptocurrency} />
+          <Route path="/mail" component={MailList} />
           <Route
             exact
             path="/cryptocurrency-list"

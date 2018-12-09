@@ -51,6 +51,12 @@ const Index = ({ user }) => (
         <Link to={`/login`}>Prisijungti</Link>
       </button>
       {user ? <div style={{ color: "white" }}> Sveiki, vartotojau </div> : null}
+      {user ? (
+        <div
+          className="mail"
+          onClick={() => (window.location.href = "/mail")}
+        />
+      ) : null}
     </div>
   </nav>
 );

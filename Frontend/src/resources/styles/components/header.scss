@@ -8,4 +8,12 @@
       color: inherit;
     }
   }
+  .mail {
+    background-image: url("../../images/mail.png");
+    background-size: contain;
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }

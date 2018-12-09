@@ -1,5 +1,5 @@
 <?php
-class Paskyra{
+class Kriptovaliuta{
  
     // database connection and table name
     private $conn;
@@ -15,5 +15,19 @@ class Paskyra{
     // constructor with $db as database connection
     public function __construct($db){
         $this->conn = $db;
+    }
+
+
+    public function Getcryptocurrences(){
+        $sql = "SELECT * 
+                FROM Kriptovaliuta"
+
+    //    $data = mysql::select($query);
+    //    return 
+    }
+
+    public function GetcryptocurrencyExchangeRate(){
+        $sql = "SELECT `Pavadinimas`, `Kursas`
+                FROM Kriptovaliuta"
     }
 }

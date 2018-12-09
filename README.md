@@ -1,15 +1,9 @@
 ## Kriptovaliutu pinigine
 
-## Setup
+## Frontend setup
 
 ```
 yarn install
-```
-
-## Compile
-
-```
-yarn run compile
 ```
 
 ## Start dev server

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Index = () => (
+const Index = ({ user }) => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary header">
     <a className="navbar-brand" href="/">
       Kriptošifras
@@ -36,12 +36,21 @@ const Index = () => (
           </a>
         </li>
       </ul>
-      <button className="btn btn-secondary my-2 my-sm-0" type="submit">
+      <button
+        style={{ display: user ? "none" : "block" }}
+        className="btn btn-secondary my-2 my-sm-0"
+        type="submit"
+      >
         <Link to={`/register`}>Registracija</Link>
       </button>
-      <button className="btn btn-secondary my-2 my-sm-0" type="submit">
+      <button
+        style={{ display: user ? "none" : "block" }}
+        className="btn btn-secondary my-2 my-sm-0"
+        type="submit"
+      >
         <Link to={`/login`}>Prisijungti</Link>
       </button>
+      {user ? <div style={{ color: "white" }}> Sveiki, vartotojau </div> : null}
     </div>
   </nav>
 );

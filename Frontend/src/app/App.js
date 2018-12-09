@@ -19,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Layout>
+        <Layout user={this.state.user}>
           <Route
             exact
             path="/"

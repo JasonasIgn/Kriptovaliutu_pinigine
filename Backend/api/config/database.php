@@ -2,7 +2,7 @@
 class Database{
  
     // specify your own database credentials
-    private $host = "stud.if.ktu.lt";
+    private $host = "localhost";
     private $db_name = "ignjas";
     private $username = "ignjas";
     private $password = "ietuF1ahtie0aiPh";

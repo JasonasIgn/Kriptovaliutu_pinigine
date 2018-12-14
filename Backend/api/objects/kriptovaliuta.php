@@ -17,24 +17,57 @@ class Kriptovaliuta{
         $this->conn = $db;
     }
 
+    function GetCryptocurrencies(){
+	// select all query
 
-    public function Getcryptocurrences(){
+	$query = "SELECT Trumpinys, `Pavadinimas`, `Kursas` 
+           FROM kriptovaliuta";
+
+	// prepare query statement
+
+	$stmt = $this->conn->prepare($query);
+
+	// execute query
+
+	$stmt->execute();
+	return $stmt;
+}
+
+public function GetCryptocurrencyExchangeRate($name){
+    $query = "SELECT `Pavadinimas`, `Kursas`
+            FROM kriptovaliuta
+            WHERE kriptovaliuta.Pavadinimas = '$name'";
+
+   $stmt = $this->conn->prepare($query);
+
+	// execute query
+
+	$stmt->execute();
+	return $stmt;
+}
+
+    public function FindCryptocurrency($name){
+     $query =   "SELECT Trumpinys, `Pavadinimas`, `Kursas`
+                 FROM  Kriptovaliuta
+                 WHERE Kriptovaliuta.Pavadinimas = '$name'";
+    $stmt = $this->conn->prepare($query);
+	$stmt->execute();
+	return $stmt;
+
+    }
+
+
+    /*
+
+    public function GetCryptocurrencies(){
         $sql = "SELECT * 
                 FROM Kriptovaliuta";
 
     }
 
-    public function GetcryptocurrencyExchangeRate(){
-        $sql = "SELECT `Pavadinimas`, `Kursas`
-                FROM Kriptovaliuta";
-    }
 
-    public function FindCryptocurrency($name){
-        $sql = "SELECT *
-                FROM Kriptovaliuta
-                WHERE Kriptovaliuta.Pavadinimas = $name";
 
-    }
+
 
     public function CompareCryptocurrences($lefttCurrency, $rightCurrency){
         $sql = "SELECT *
@@ -43,6 +76,6 @@ class Kriptovaliuta{
 
 
     }
-
+*/
 }
 

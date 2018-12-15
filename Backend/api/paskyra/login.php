@@ -12,47 +12,44 @@ include_once '../config/database.php';
 // instantiate product object
 include_once '../objects/paskyra.php';
  
+ 
+include_once '../objects/tokenas.php';
+ 
 $database = new Database();
 $db = $database->getConnection();;
 $paskyra = new Paskyra($db);
+$tokenas = new Tokenas($db);
  
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
  
 // make sure data is not empty
 if(
-    !empty($data->Vardas) &&
-    !empty($data->Pavarde) &&
     !empty($data->El_pastas) &&
     !empty($data->Slaptazodis)
 ){
- 
-	
     // set product property values
-    $paskyra->Vardas = $data->Vardas;
-    $paskyra->Pavarde = $data->Pavarde;
     $paskyra->El_pastas = $data->El_pastas;
     $paskyra->Slaptazodis = $data->Slaptazodis;
-	$paskyra->Teises = 1;
-	$paskyra->Blokuota = 0;
  
-	$code = $paskyra->create();
+	$code = $paskyra->login();
     // create the product
-    if($code == 200){
- 
-        // set response code - 201 created
-        http_response_code(201);
- 
+    if($code){
+		
+		$token = $tokenas->createLogin($code['Teises'], $code['Id']);
+		if ($token) {
+			http_response_code(200);
+		
         // tell the user
-        echo json_encode(array("code" => $code));
+			echo json_encode(array("token" => $token, "user" => $code));
+		}
+		else {
+			http_response_code(400);
+		}
+        
     }
 	else {
- 
-        // set response code - 503 service unavailable
         http_response_code(400);
- 
-        // tell the user
-        echo json_encode(array("code" => $code));
     }
 }
  

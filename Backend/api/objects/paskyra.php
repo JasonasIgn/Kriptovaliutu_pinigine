@@ -36,7 +36,7 @@ class Paskyra{
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					Vardas='{$this->Vardas}', Pavarde='{$this->Pavarde}', El_pastas='{$this->El_pastas}', Slaptazodis='{$this->Slaptazodis}'";
+					Vardas='{$this->Vardas}', Pavarde='{$this->Pavarde}', El_pastas='{$this->El_pastas}', Slaptazodis='{$this->Slaptazodis}', Teises='{$this->Teises}', Blokuota='{$this->Blokuota}' ";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -45,5 +45,27 @@ class Paskyra{
 		$stmt->execute();
 		return $stmt->errno;
 		 
+	}
+	
+	function login(){
+	 
+		// sanitize
+		$this->El_pastas=htmlspecialchars(strip_tags($this->El_pastas));
+		$this->Slaptazodis=htmlspecialchars(strip_tags($this->Slaptazodis));
+	 
+		// query to insert record
+		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota FROM
+					" . $this->table_name . "
+				WHERE
+					El_pastas='{$this->El_pastas}' AND Slaptazodis='{$this->Slaptazodis}'";
+	 
+		// prepare query
+		$result = $this->conn->query($query);
+	 
+		if ($result->num_rows > 0)
+		{
+			return $result->fetch_assoc();
+		}
+		 return null;
 	}
 }

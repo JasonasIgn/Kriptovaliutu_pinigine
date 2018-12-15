@@ -13,14 +13,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: window.sessionStorage.getItem("user"),
-      token: window.sessionStorage.getItem("token")
+      user: window.sessionStorage.getItem("user") || null,
+      token: window.sessionStorage.getItem("token") || null
     };
   }
   render() {
     return (
       <Router>
-        <Layout user={this.state.user}>
+        <Layout>
           <Route
             exact
             path="/"

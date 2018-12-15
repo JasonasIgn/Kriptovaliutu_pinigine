@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { User } from "../../resources/scripts/UserService";
 
 const Index = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary header">
@@ -37,21 +38,27 @@ const Index = () => (
         </li>
       </ul>
       <button
-        style={{ display: user ? "none" : "block" }}
+        style={{
+          display: window.sessionStorage.getItem("user") ? "none" : "block"
+        }}
         className="btn btn-secondary my-2 my-sm-0"
         type="submit"
       >
         <Link to={`/register`}>Registracija</Link>
       </button>
       <button
-        style={{ display: user ? "none" : "block" }}
+        style={{
+          display: window.sessionStorage.getItem("user") ? "none" : "block"
+        }}
         className="btn btn-secondary my-2 my-sm-0"
         type="submit"
       >
         <Link to={`/login`}>Prisijungti</Link>
       </button>
-      {user ? <div style={{ color: "white" }}> Sveiki, vartotojau </div> : null}
-      {user ? (
+      {window.sessionStorage.getItem("user") ? (
+        <div style={{ color: "white" }}> Sveiki, {User.getName()} </div>
+      ) : null}
+      {window.sessionStorage.getItem("user") ? (
         <div
           className="mail"
           onClick={() => (window.location.href = "/mail")}

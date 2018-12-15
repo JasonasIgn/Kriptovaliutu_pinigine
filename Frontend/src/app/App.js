@@ -8,6 +8,7 @@ import Dashboard from "./Components/Dashboard";
 import CryptocurrencyList from "./Pages/CryptocurrencyList";
 import Cryptocurrency from "./Pages/Cryptocurrency";
 import MailList from "./Pages/MailList";
+import Deposit from "./Pages/Deposit";
 import { User } from "../resources/scripts/UserService";
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/cryptocurrency" component={Cryptocurrency} />
+          <Route path="/deposit" component={Deposit} />
           <Route path="/mail" component={MailList} />
           <Route
             exact

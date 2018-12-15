@@ -47,6 +47,20 @@ class Paskyra{
 		 
 	}
 	
+	function getId ($email) {
+		$query = "SELECT Id FROM
+					" . $this->table_name . "
+				WHERE
+					El_pastas='{$email}'";
+	 
+		$result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			return $result->fetch_assoc()['Id'];
+		}
+		else return null;
+	}
+	
 	function login(){
 	 
 		// sanitize

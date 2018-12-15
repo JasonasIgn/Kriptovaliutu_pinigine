@@ -5,8 +5,6 @@ class Pinigine{
     private $conn;
     private $table_name = "pinigine";
  
- 
-
     public $Id;
     public $Adresas;
     public $Balansas_USD;
@@ -18,7 +16,33 @@ class Pinigine{
     public function __construct($db){
         $this->conn = $db;
     }
-
+	
+	function create($id){
+		if ($id != null) 
+		{
+			// sanitize
+			$this->Adresas=md5(uniqid(rand(), true));
+			$this->fk_PaskyraId=$id;
+			$this->Balansas_USD=0;
+			$this->Balansas_EUR=0;
+			$this->Blokuota=0;
+		 
+			// query to insert record
+			$query = "INSERT INTO
+						" . $this->table_name . "
+					SET
+						Adresas='{$this->Adresas}', fk_PaskyraId='{$this->fk_PaskyraId}', Balansas_USD='{$this->Balansas_USD}', Balansas_EUR='{$this->Balansas_EUR}', Blokuota='{$this->Blokuota}'";
+		 
+			// prepare query
+			$stmt = $this->conn->prepare($query);
+		 
+			// execute query
+			$stmt->execute();
+			return $stmt->errno;
+		}
+		else return null;
+		 
+	}
     // read pinigine
     function read(){
         // select all query

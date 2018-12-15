@@ -11,10 +11,13 @@ include_once '../config/database.php';
  
 // instantiate product object
 include_once '../objects/paskyra.php';
+
+include_once '../objects/pinigine.php';
  
 $database = new Database();
 $db = $database->getConnection();;
 $paskyra = new Paskyra($db);
+$pinigine = new Pinigine($db);
  
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -38,8 +41,8 @@ if(
  
 	$code = $paskyra->create();
     // create the product
-    if($code == 200){
- 
+    if($code == 0){
+		$code = $pinigine->create($paskyra->getId($paskyra->El_pastas));
         // set response code - 201 created
         http_response_code(201);
  

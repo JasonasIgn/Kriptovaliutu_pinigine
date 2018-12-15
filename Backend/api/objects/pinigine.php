@@ -46,7 +46,7 @@ class Pinigine{
     // read pinigine
     function getById($id){
         // select all query
-        $query = "SELECT * FROM pinigine WHERE fk_PaskyraId";
+        $query = "SELECT * FROM pinigine WHERE fk_PaskyraId='{$id}'";
     
         // execute query
         $result = $this->conn->query($query);

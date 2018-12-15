@@ -53,9 +53,8 @@ if(
  
         // set response code - 503 service unavailable
         http_response_code(400);
- 
-        // tell the user
-        echo json_encode(array("code" => $code));
+		if ($code == 1062) echo json_encode(array("message" => "Toks el. pastas jau uzregistruotas"));
+		else echo json_encode(array("message" => $code));
     }
 }
  

@@ -1,8 +1,8 @@
 export class Wallet {
   static getBalanceEUR() {
     if (window.sessionStorage.getItem("wallet")) {
-      let user = JSON.parse(window.sessionStorage.getItem("user"));
-      return user.Vardas;
+      let wallet = JSON.parse(window.sessionStorage.getItem("wallet"));
+      return wallet.Balansas_EUR;
     } else return null;
   }
 }

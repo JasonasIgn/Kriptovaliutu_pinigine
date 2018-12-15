@@ -11,14 +11,14 @@ include_once '../config/database.php';
  
 // instantiate product object
 include_once '../objects/paskyra.php';
- 
- 
+include_once '../objects/pinigine.php';
 include_once '../objects/tokenas.php';
  
 $database = new Database();
 $db = $database->getConnection();;
 $paskyra = new Paskyra($db);
 $tokenas = new Tokenas($db);
+$pinigine = new Pinigine($db);
  
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -46,9 +46,14 @@ else {
 			$token = $tokenas->createLogin($code['Teises'], $code['Id']);
 			if ($token) {
 				http_response_code(200);
-			
-			// tell the user
-				echo json_encode(array("token" => $token, "user" => $code));
+				$piniginesInfo = $pinigine->getById($code['Id']);
+				if ($piniginesInfo) {
+					
+				echo json_encode(array("token" => $token, "user" => $code, "wallet" => $piniginesInfo));
+				}
+				else {
+					http_response_code(400);
+				}
 			}
 			else {
 				http_response_code(400);

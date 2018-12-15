@@ -2,6 +2,7 @@ import React from "react";
 import TransferIcon from "../../resources/images/icon-transfer.png";
 import InfoIcon from "../../resources/images/icon-info.png";
 import QuestionButton from "./QuestionButton";
+import { Wallet } from "../../resources/scripts/WalletService";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class Dashboard extends React.Component {
         <div className="container">
           <div className="real-money">
             <div className="money-container">
-              <h2 className="money">10.58</h2>
+              <h2 className="money">
+                {parseFloat(Wallet.getBalanceEUR()).toFixed(2)}
+              </h2>
               <h4 className="currency">EUR</h4>
             </div>
             <div className="actions-container">

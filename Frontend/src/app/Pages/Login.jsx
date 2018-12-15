@@ -49,6 +49,10 @@ class Login extends React.Component {
           if (res.body.message) responseField.innerHTML = res.body.message;
           window.sessionStorage.setItem("user", JSON.stringify(res.body.user));
           window.sessionStorage.setItem("token", res.body.token);
+          window.sessionStorage.setItem(
+            "wallet",
+            JSON.stringify(res.body.wallet)
+          );
           window.location.href = "/";
         })
         .catch(err => {

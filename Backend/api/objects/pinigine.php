@@ -44,17 +44,16 @@ class Pinigine{
 		 
 	}
     // read pinigine
-    function read(){
+    function getById($id){
         // select all query
-        $query = "SELECT * FROM pinigine";
-    
-        // prepare query statement
-        $stmt = $this->conn->prepare($query);
+        $query = "SELECT * FROM pinigine WHERE fk_PaskyraId";
     
         // execute query
-        $stmt->execute();
-    
-        return $stmt;
+        $result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			return $result->fetch_assoc();
+		}
     }
 
     function readBalanse(){

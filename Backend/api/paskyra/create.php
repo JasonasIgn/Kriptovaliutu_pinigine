@@ -47,7 +47,7 @@ if(
         http_response_code(201);
  
         // tell the user
-        echo json_encode(array("code" => $code));
+        echo json_encode(array("message" => "Paskyra sukurta sekmingai"));
     }
 	else {
  
@@ -65,6 +65,6 @@ else {
     http_response_code(400);
  
     // tell the user
-    echo json_encode(array("code" => 400));
+    echo json_encode(array("message" => "Ne visi duomenys uzpildyti"));
 }
 ?>

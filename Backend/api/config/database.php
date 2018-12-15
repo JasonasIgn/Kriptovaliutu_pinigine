@@ -2,25 +2,22 @@
 class Database{
  
     // specify your own database credentials
-    private $host = "stud.if.ktu.lt";
+    private $host = "localhost";
     private $db_name = "ignjas";
-    private $username = "ignjas";
-    private $password = "ietuF1ahtie0aiPh";
+    private $username = "root";
+    private $password = "";
     public $conn;
  
     // get the database connection
     public function getConnection(){
- 
-        $this->conn = null;
- 
-        try{
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->exec("set names utf8");
-        }catch(PDOException $exception){
-            echo "Connection error: " . $exception->getMessage();
-        }
- 
-        return $this->conn;
+		$this->conn = null;        
+			$this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
+			if (mysqli_connect_errno()) {
+				printf("Connect failed: %s\n", mysqli_connect_error());
+				exit();
+			}
+
+		return $this->conn;
     }
 }
 ?>

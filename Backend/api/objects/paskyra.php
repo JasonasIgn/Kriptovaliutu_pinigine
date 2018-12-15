@@ -26,32 +26,24 @@ class Paskyra{
 	// create product
 	function create(){
 	 
-		// query to insert record
-		$query = "INSERT INTO
-					" . $this->table_name . "
-				SET
-					Vardas=:Vardas, Pavarde=:Pavarde, El_pastas=:El_pastas, Slaptazodis=:Slaptazodis";
-	 
-		// prepare query
-		$stmt = $this->conn->prepare($query);
 		// sanitize
 		$this->Vardas=htmlspecialchars(strip_tags($this->Vardas));
 		$this->Pavarde=htmlspecialchars(strip_tags($this->Pavarde));
 		$this->El_pastas=htmlspecialchars(strip_tags($this->El_pastas));
 		$this->Slaptazodis=htmlspecialchars(strip_tags($this->Slaptazodis));
 	 
-		// bind values
-		$stmt->bindParam(":Vardas", $this->Vardas);
-		$stmt->bindParam(":Pavarde", $this->Pavarde);
-		$stmt->bindParam(":El_pastas", $this->El_pastas);
-		$stmt->bindParam(":Slaptazodis", $this->Slaptazodis);
+		// query to insert record
+		$query = "INSERT INTO
+					" . $this->table_name . "
+				SET
+					Vardas='{$this->Vardas}', Pavarde='{$this->Pavarde}', El_pastas='{$this->El_pastas}', Slaptazodis='{$this->Slaptazodis}'";
+	 
+		// prepare query
+		$stmt = $this->conn->prepare($query);
 	 
 		// execute query
-		if($stmt->execute()){
-			return true;
-		}
-	 
-		return false;
+		$stmt->execute();
+		return $stmt->errno;
 		 
 	}
 }

@@ -34,34 +34,33 @@ if(
     $paskyra->El_pastas = $data->El_pastas;
     $paskyra->Slaptazodis = $data->Slaptazodis;
  
+	$code = $paskyra->create();
     // create the product
-    if($paskyra->create()){
+    if($code == 200){
  
         // set response code - 201 created
         http_response_code(201);
  
         // tell the user
-        echo json_encode(array("message" => "Paskyra was created."));
+        echo json_encode(array("code" => $code));
     }
- 
-    // if unable to create the product, tell the user
-    else{
+	else {
  
         // set response code - 503 service unavailable
-        http_response_code(503);
+        http_response_code(400);
  
         // tell the user
-        echo json_encode(array("message" => "Unable to create paskyra."));
+        echo json_encode(array("code" => $code));
     }
 }
  
 // tell the user data is incomplete
-else{
+else {
  
     // set response code - 400 bad request
     http_response_code(400);
  
     // tell the user
-    echo json_encode(array("message" => "Unable to create paskyra. Data is incomplete."));
+    echo json_encode(array("code" => 400));
 }
 ?>

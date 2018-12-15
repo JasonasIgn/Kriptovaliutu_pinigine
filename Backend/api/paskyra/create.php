@@ -27,6 +27,8 @@ if(
     !empty($data->Slaptazodis)
 ){
  
+	
+    // set product property values
     $paskyra->Vardas = $data->Vardas;
     $paskyra->Pavarde = $data->Pavarde;
     $paskyra->El_pastas = $data->El_pastas;

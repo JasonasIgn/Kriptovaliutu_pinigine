@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { User } from "../../resources/scripts/UserService";
 
-const Index = () => (
+const Header = () => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary header">
     <a className="navbar-brand" href="/">
       Kriptošifras
@@ -53,11 +53,29 @@ const Index = () => (
       ) : null}
 
       {window.sessionStorage.getItem("user") ? (
-        <div className="user-select" style={{ color: "white" }}>
+        <div
+          className="user-select"
+          style={{ color: "white" }}
+          onClick={() =>
+            document.querySelector(".modal-menu").classList.toggle("show")
+          }
+        >
           Sveiki, {User.getName()}
         </div>
       ) : null}
+      <div className="modal-menu">
+        <a href="/profile"> Redaguoti paskyrą</a>
+        <a
+          href="#"
+          onClick={() => {
+            User.logout();
+            document.querySelector(".modal-menu").classList.toggle("show");
+          }}
+        >
+          Atsijungti
+        </a>
+      </div>
     </div>
   </nav>
 );
-export default Index;
+export default Header;

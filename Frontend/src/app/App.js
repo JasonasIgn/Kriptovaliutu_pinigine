@@ -8,6 +8,7 @@ import Dashboard from "./Components/Dashboard";
 import CryptocurrencyList from "./Pages/CryptocurrencyList";
 import Cryptocurrency from "./Pages/Cryptocurrency";
 import MailList from "./Pages/MailList";
+import { User } from "../resources/scripts/UserService";
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={() => (this.state.user ? <Dashboard /> : <Index />)}
+            render={() => (User.isLoggedIn() ? <Dashboard /> : <Index />)}
           />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />

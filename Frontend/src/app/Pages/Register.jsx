@@ -75,11 +75,9 @@ class Register extends React.Component {
         .set("Content-Type", "application/json")
         .then(res => {
           responseField.innerHTML = res.body.message;
-          console.log(res);
         })
         .catch(err => {
           console.dir(err);
-          //responseField.innerHTML = err.body.message;
         });
     }
   }

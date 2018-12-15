@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../Components/Header";
 
-const Layout = ({ children, user }) => (
+const Layout = ({ children }) => (
   <div className="main">
-    <Header user={user} />
+    <Header />
     {children}
   </div>
 );

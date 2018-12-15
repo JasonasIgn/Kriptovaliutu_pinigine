@@ -23,43 +23,51 @@ $tokenas = new Tokenas($db);
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
  
+ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+     // The request is using the POST method
+	 http_response_code(200);
+	 
+	 echo json_encode(array("msesage" => "Viskas ok"));
+}
+else {
 // make sure data is not empty
-if(
-    !empty($data->El_pastas) &&
-    !empty($data->Slaptazodis)
-){
-    // set product property values
-    $paskyra->El_pastas = $data->El_pastas;
-    $paskyra->Slaptazodis = $data->Slaptazodis;
- 
-	$code = $paskyra->login();
-    // create the product
-    if($code){
-		
-		$token = $tokenas->createLogin($code['Teises'], $code['Id']);
-		if ($token) {
-			http_response_code(200);
-		
-        // tell the user
-			echo json_encode(array("token" => $token, "user" => $code));
+	if(
+		!empty($data->El_pastas) &&
+		!empty($data->Slaptazodis)
+	){
+		// set product property values
+		$paskyra->El_pastas = $data->El_pastas;
+		$paskyra->Slaptazodis = $data->Slaptazodis;
+	 
+		$code = $paskyra->login();
+		// create the product
+		if($code){
+			
+			$token = $tokenas->createLogin($code['Teises'], $code['Id']);
+			if ($token) {
+				http_response_code(200);
+			
+			// tell the user
+				echo json_encode(array("token" => $token, "user" => $code));
+			}
+			else {
+				http_response_code(400);
+			}
+			
 		}
 		else {
 			http_response_code(400);
 		}
-        
-    }
+	}
+	 
+	// tell the user data is incomplete
 	else {
-        http_response_code(400);
-    }
-}
- 
-// tell the user data is incomplete
-else {
- 
-    // set response code - 400 bad request
-    http_response_code(400);
- 
-    // tell the user
-    echo json_encode(array("code" => 400));
+	 
+		// set response code - 400 bad request
+		http_response_code(400);
+	 
+		// tell the user
+		echo json_encode(array("code" => 400));
+	}
 }
 ?>

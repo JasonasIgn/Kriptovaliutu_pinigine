@@ -13,10 +13,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 1
+      user: window.sessionStorage.getItem("user"),
+      token: window.sessionStorage.getItem("token")
     };
   }
-
   render() {
     return (
       <Router>
@@ -24,9 +24,7 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={() =>
-              this.state.user ? <Dashboard user={this.state.user} /> : <Index />
-            }
+            render={() => (this.state.user ? <Dashboard /> : <Index />)}
           />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />

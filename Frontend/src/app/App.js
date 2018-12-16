@@ -16,6 +16,7 @@ import Withdraw from "./Pages/Withdraw";
 import Exchange from "./Pages/Exchange";
 import Send from "./Pages/Send";
 import Profile from "./Pages/Profile";
+import AccountList from "./Pages/AccountList";
 
 class App extends Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class App extends Component {
           <Route path="/deposit/credit-card" component={Credit} />
           <Route path="/deposit/bank" component={Bank} />
           <Route path="/withdraw" component={Withdraw} />
+          <Route path="/account-list" component={AccountList} />
           <Route path="/exchange" component={Exchange} />
           <Route path="/mail" component={MailList} />
           <Route path="/profile" component={Profile} />

@@ -34,6 +34,13 @@ export class User {
     } else return null;
   }
 
+  static isAdmin() {
+    if (window.sessionStorage.getItem("user")) {
+      let user = JSON.parse(window.sessionStorage.getItem("user"));
+      return user.Teises == 3;
+    } else return null;
+  }
+
   static getPhone() {
     if (window.sessionStorage.getItem("user")) {
       let user = JSON.parse(window.sessionStorage.getItem("user"));

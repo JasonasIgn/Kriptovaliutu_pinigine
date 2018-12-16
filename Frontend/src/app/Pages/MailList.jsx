@@ -1,5 +1,4 @@
 import React from "react";
-import InfoIcon from "../../resources/images/icon-info.png";
 import request from "superagent";
 import { User } from "../../resources/scripts/UserService";
 class MailList extends React.Component {
@@ -16,7 +15,6 @@ class MailList extends React.Component {
       .get(`http://localhost/api/klausimas/getById.php?${User.getId()}`)
       .then(res => {
         res.body.klausimai.forEach((item, index) => {
-          console.log(item);
           let optItem = (
             <tr key={index}>
               <th scope="row">{index + 1}</th>
@@ -37,7 +35,7 @@ class MailList extends React.Component {
     return (
       <div className="cryptocurrency-list">
         <div className="container" style={{ justifyContent: "flex-start" }}>
-          <h1 className="title">Žinutės</h1>
+          <h1 className="title">Klausimai</h1>
           <table className="table table-hover">
             <thead>
               <tr>

@@ -65,6 +65,7 @@ const Header = () => (
       ) : null}
       <div className="modal-menu">
         <a href="/profile"> Redaguoti paskyrą</a>
+        {User.isAdmin() ? <a href="/account-list"> Paskyrų sąrašas</a> : null}
         <a
           href="#"
           onClick={() => {

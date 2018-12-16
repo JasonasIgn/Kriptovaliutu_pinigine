@@ -12,6 +12,7 @@ import Deposit from "./Pages/Deposit";
 import Credit from "./Pages/Credit";
 import { User } from "../resources/scripts/UserService";
 import Bank from "./Pages/Bank";
+import Withdraw from "./Pages/Withdraw";
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class App extends Component {
           <Route path="/deposit" component={Deposit} />
           <Route path="/deposit/credit-card" component={Credit} />
           <Route path="/deposit/bank" component={Bank} />
+          <Route path="/withdraw" component={Withdraw} />
           <Route path="/mail" component={MailList} />
           <Route
             exact

@@ -44,7 +44,11 @@ class Dashboard extends React.Component {
               >
                 Papildyti
               </button>
-              <button type="button" className="btn btn-secondary">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => (window.location.href = "/withdraw")}
+              >
                 Išgryninti
               </button>
             </div>

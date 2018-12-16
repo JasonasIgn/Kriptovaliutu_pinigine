@@ -13,7 +13,6 @@ class AccountList extends React.Component {
   getInformation() {
     let array = [];
     request.get(`http://localhost/api/paskyra/getAll.php`).then(res => {
-      console.log(res);
       res.body.forEach((item, index) => {
         let optItem = (
           <tr key={index}>

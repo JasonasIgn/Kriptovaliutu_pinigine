@@ -14,15 +14,21 @@ import { User } from "../resources/scripts/UserService";
 import Bank from "./Pages/Bank";
 import Withdraw from "./Pages/Withdraw";
 import Exchange from "./Pages/Exchange";
+import Send from "./Pages/Send";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: window.sessionStorage.getItem("user") || null,
-      token: window.sessionStorage.getItem("token") || null
+      token: window.sessionStorage.getItem("token") || null,
+      sendCryptoId: null
+    };
+    this.setSendId = id => {
+      this.setState({ sendCryptoId: id }, () => {});
     };
   }
+
   componentDidMount() {}
   render() {
     return (
@@ -31,7 +37,18 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={() => (User.isLoggedIn() ? <Dashboard /> : <Index />)}
+            render={() =>
+              User.isLoggedIn() ? (
+                <Dashboard setSendId={this.setSendId} />
+              ) : (
+                <Index />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/send"
+            render={() => <Send sendId={this.state.sendCryptoId} />}
           />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />

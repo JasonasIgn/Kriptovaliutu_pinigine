@@ -99,6 +99,72 @@ class Pinigine_kriptovaliuta{
 		}
 		else return 400;
 	}
+	function Send($sendValue, $sendId, $receiverAddress, $ownerWalletId){
+	// select all query
+		$code = -1;
+		$query = "SELECT * FROM
+					" . $this->table_name . "
+				WHERE
+					fk_KriptovaliutaId='{$sendId}' AND fk_PinigineId='{$ownerWalletId}'";
+	 
+		$result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			$query = "UPDATE
+						" . $this->table_name . "
+					SET
+						Balansas = Balansas - {$sendValue} WHERE fk_KriptovaliutaId='{$sendId}' AND fk_PinigineId='{$ownerWalletId}'";
+						
+			$stmt = $this->conn->prepare($query);
+			$stmt->execute();
+			$code = $stmt->errno;
+		}
+		else return 400;
+		
+		if ($code == 0) {	//Jei atemimas pavyko
+				
+			$query = "SELECT Id FROM pinigine
+					WHERE
+						Adresas='{$receiverAddress}'";
+		 
+			$result = $this->conn->query($query);
+			if ($result->num_rows > 0)
+			{
+				$id = $result->fetch_assoc()["Id"];
+				$query = "SELECT * FROM
+						" . $this->table_name . "
+					WHERE
+						fk_KriptovaliutaId='{$sendId}' AND fk_PinigineId='{$id}'";
+				$result = $this->conn->query($query);
+				if ($result->num_rows > 0)
+				{
+					$query = "UPDATE
+								" . $this->table_name . "
+							SET
+								Balansas = Balansas + {$sendValue} WHERE fk_KriptovaliutaId='{$sendId}' AND fk_PinigineId='{$id}'";
+								
+					$stmt = $this->conn->prepare($query);
+					$stmt->execute();
+					$code = $stmt->errno;
+					return $code;
+				}
+				else {
+					$query = "INSERT INTO
+						" . $this->table_name . "
+					SET
+						Balansas = {$sendValue}, fk_KriptovaliutaId='{$sendId}', fk_PinigineId='{$id}'";
+						
+					$stmt = $this->conn->prepare($query);
+					$stmt->execute();
+					$code = $stmt->errno;
+					return $code;
+				}
+			}
+			else return 999; //No such wallet address
+			
+		}
+		else return 400;
+	}
 	
 	function getById($id){
         // select all query
@@ -112,6 +178,19 @@ class Pinigine_kriptovaliuta{
 				 $json[] = $row;
 			}
 			return $json;
+		}
+		else return null;
+    }
+	
+	function getByTwoIds($walletId, $cryptoId){
+        // select all query
+        $query = "SELECT * FROM {$this->table_name} WHERE fk_PinigineId='{$walletId}' AND fk_KriptovaliutaId='{$cryptoId}'";
+    
+        // execute query
+        $result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			return $result->fetch_assoc();
 		}
 		else return null;
     }

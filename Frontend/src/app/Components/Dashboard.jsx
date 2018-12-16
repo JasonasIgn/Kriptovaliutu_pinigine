@@ -5,6 +5,7 @@ import request from "superagent";
 import QuestionButton from "./QuestionButton";
 import { Wallet } from "../../resources/scripts/WalletService";
 import { User } from "../../resources/scripts/UserService";
+import { Link } from "react-router-dom";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -53,7 +54,12 @@ class Dashboard extends React.Component {
                           }`;
                         }}
                       />
-                      <img src={TransferIcon} />
+                      <Link to="/send">
+                        <img
+                          src={TransferIcon}
+                          onClick={() => this.props.setSendId(res.body[0].id)}
+                        />
+                      </Link>
                     </div>
                   </div>
                   <div className="card-body">

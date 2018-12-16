@@ -39,9 +39,9 @@ class Withdraw extends React.Component {
 
     if (valid) {
       request
-        .post("http://localhost/api/pinigine/add.php")
+        .post("http://localhost/api/pinigine/withdraw.php")
         .send({
-          Id: Wallet.getId(),
+          Id: User.getId(),
           Suma: numberField.value
         })
         .set("Content-Type", "application/json")

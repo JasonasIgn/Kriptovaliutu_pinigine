@@ -74,6 +74,45 @@ class Pinigine{
 		}
 		else return null;
 	}
+	
+	function widthdrawBalance($id, $suma)
+	{
+		if ($id != null && $suma != null) 
+		{
+			
+		$query = "SELECT Balansas_EUR FROM pinigine WHERE fk_PaskyraId='{$id}'";
+		
+		$result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			$balance = $result->fetch_assoc()['Balansas_EUR'];
+			if ($balance > $suma) {
+				$query = "UPDATE
+						" . $this->table_name . "
+					SET
+						Balansas_EUR = Balansas_EUR - {$suma} WHERE fk_PaskyraId='{$id}'";
+						
+				$stmt = $this->conn->prepare($query);
+				$stmt->execute();
+				return $stmt->errno;
+			}
+			else return 1000; //Nepakanka pinigu
+		}
+		else return null;
+			
+		$query = "UPDATE
+						" . $this->table_name . "
+					SET
+						Balansas_EUR = Balansas_EUR + {$suma} WHERE Id='{$id}'";
+		 $stmt = $this->conn->prepare($query);
+		 
+			// execute query
+			//return $query;
+			$stmt->execute();
+			return $stmt->errno;
+		}
+		else return null;
+	}
 
     function readBalanse(){
         $query = "SELECT Balansas_USD, Balansas_EUR FROM pinigine WHERE fk_PaskyraId = ? LIMIT 0,1";

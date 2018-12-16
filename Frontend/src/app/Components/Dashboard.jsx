@@ -72,6 +72,11 @@ class Dashboard extends React.Component {
     return (
       <div className="dashboard">
         <div className="container">
+          <div className="wallet-address-container">
+            Jūsų piniginės adresas:
+            <br />
+            <b>{Wallet.getAddress()}</b>
+          </div>
           <div className="real-money">
             <div className="money-container">
               <h2 className="money">

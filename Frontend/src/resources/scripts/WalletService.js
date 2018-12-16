@@ -11,4 +11,11 @@ export class Wallet {
       return wallet.Id;
     } else return null;
   }
+
+  static getAddress() {
+    if (window.sessionStorage.getItem("wallet")) {
+      let wallet = JSON.parse(window.sessionStorage.getItem("wallet"));
+      return wallet.Adresas;
+    } else return null;
+  }
 }

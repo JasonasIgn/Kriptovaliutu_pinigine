@@ -24,7 +24,7 @@ class Pinigine_kriptovaliuta{
 		{
 			$query = "UPDATE pinigine
 					SET
-						Balansas_EUR = Balansas_EUR + {$exchangeFromValue} WHERE Id='{$walletId}'";
+						Balansas_EUR = Balansas_EUR - {$exchangeFromValue} WHERE Id='{$walletId}'";
 						
 			$stmt = $this->conn->prepare($query);
 			$stmt->execute();
@@ -49,14 +49,34 @@ class Pinigine_kriptovaliuta{
 				$code = $stmt->errno;
 			}
 			else return 400;
-			
-			if ($code == 0) {	//Jei atemimas pavyko
+		}
+		
+		if ($code == 0) {	//Jei atemimas pavyko
 				
-				if ($exchangeToId == 0)
+			if ($exchangeToId == 0)
+			{
+				$query = "UPDATE pinigine
+						SET
+							Balansas_EUR = Balansas_EUR + {$exchangeToValue} WHERE Id='{$walletId}'";
+							
+				$stmt = $this->conn->prepare($query);
+				$stmt->execute();
+				$code = $stmt->errno;
+				return $code;
+			}
+			else {
+				$query = "SELECT * FROM
+							" . $this->table_name . "
+						WHERE
+							fk_KriptovaliutaId='{$exchangeToId}' AND fk_PinigineId='{$walletId}'";
+			 
+				$result = $this->conn->query($query);
+				if ($result->num_rows > 0)
 				{
-					$query = "UPDATE pinigine
+					$query = "UPDATE
+								" . $this->table_name . "
 							SET
-								Balansas_EUR = Balansas_EUR + {$exchangeToValue} WHERE Id='{$walletId}'";
+								Balansas = Balansas + {$exchangeToValue} WHERE fk_KriptovaliutaId='{$exchangeToId}' AND fk_PinigineId='{$walletId}'";
 								
 					$stmt = $this->conn->prepare($query);
 					$stmt->execute();
@@ -64,38 +84,36 @@ class Pinigine_kriptovaliuta{
 					return $code;
 				}
 				else {
-					$query = "SELECT * FROM
-								" . $this->table_name . "
-							WHERE
-								fk_KriptovaliutaId='{$exchangeToId}' AND fk_PinigineId='{$walletId}'";
-				 
-					$result = $this->conn->query($query);
-					if ($result->num_rows > 0)
-					{
-						$query = "UPDATE
-									" . $this->table_name . "
-								SET
-									Balansas = Balansas + {$exchangeToValue} WHERE fk_KriptovaliutaId='{$exchangeToId}' AND fk_PinigineId='{$walletId}'";
-									
-						$stmt = $this->conn->prepare($query);
-						$stmt->execute();
-						$code = $stmt->errno;
-					}
-					else {
-						$query = "INSERT INTO
-							" . $this->table_name . "
-						SET
-							Balansas = {$exchangeToValue} fk_KriptovaliutaId='{$exchangeToId}' fk_PinigineId='{$walletId}'";
-							
-						$stmt = $this->conn->prepare($query);
-						$stmt->execute();
-						$code = $stmt->errno;
-					}
+					$query = "INSERT INTO
+						" . $this->table_name . "
+					SET
+						Balansas = {$exchangeToValue}, fk_KriptovaliutaId='{$exchangeToId}', fk_PinigineId='{$walletId}'";
 						
+					$stmt = $this->conn->prepare($query);
+					$stmt->execute();
+					$code = $stmt->errno;
+					return $code;
 				}
+					
 			}
-			else return 400;
 		}
+		else return 400;
 	}
+	
+	function getById($id){
+        // select all query
+        $query = "SELECT * FROM {$this->table_name} WHERE fk_PinigineId='{$id}'";
+    
+        // execute query
+        $result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			while($row = $result->fetch_assoc()){
+				 $json[] = $row;
+			}
+			return $json;
+		}
+		else return null;
+    }
 }
 

@@ -7,6 +7,7 @@ class Exchange extends React.Component {
     super(props);
     this.state = {
       information: null,
+      myCryptos: [],
       eurBalance: Wallet.getBalanceEUR(),
       myOptions: [],
       exchangeOptions: [],
@@ -31,7 +32,6 @@ class Exchange extends React.Component {
       .then(res => {
         this.setState({ information: res.body });
         res.body.data.forEach(item => {
-          console.log(item);
           let itemOpt = (
             <option value={item.id} key={item.id}>{`${item.name} (${
               item.symbol
@@ -42,6 +42,29 @@ class Exchange extends React.Component {
           exchangeOpt = [...exchangeOpt, itemOpt];
         });
         this.setState({ exchangeOptions: exchangeOpt });
+      });
+
+    request
+      .get(
+        `http://localhost/api/pinigine_kriptovaliuta/getById.php?${Wallet.getId()}`
+      )
+      .then(res => {
+        this.setState({ myCryptos: res.body.kriptovaliutos });
+        res.body.kriptovaliutos.forEach(item => {
+          request
+            .get("https://api.coinlore.com/api/ticker/")
+            .query({ id: item.fk_KriptovaliutaId })
+            .then(res => {
+              let optItem = (
+                <option key={res.body[0].id} value={res.body[0].id}>
+                  {`${item.Balansas} ${res.body[0].symbol} (${
+                    res.body[0].name
+                  })`}
+                </option>
+              );
+              this.setState({ myOptions: [...this.state.myOptions, optItem] });
+            });
+        });
       });
   }
 
@@ -78,17 +101,16 @@ class Exchange extends React.Component {
     });
   }
   componentDidMount() {
-    this.getInformation();
     if (this.state.eurBalance)
       this.setState({
         myOptions: [
           ...this.state.myOptions,
           <option value="0" key={0}>
-            {" "}
-            {this.state.eurBalance} Eur{" "}
+            {this.state.eurBalance} Eur
           </option>
         ]
       });
+    this.getInformation();
   }
   handleExchange() {
     document.querySelector(".exchange1").innerHTML = "";
@@ -114,6 +136,53 @@ class Exchange extends React.Component {
     } else if (isNaN(valueFrom)) {
       document.querySelector(".value1").innerHTML = "Turi buti skaicius";
       valid = false;
+    } else if (
+      pickedFrom == 0 &&
+      Number(valueFrom) > Number(Wallet.getBalanceEUR())
+    ) {
+      document.querySelector(".value1").innerHTML = "Nepakankamas balansas";
+      valid = false;
+    } else if (pickedFrom != 0) {
+      this.state.myCryptos.forEach(item => {
+        if (pickedFrom == item.fk_KriptovaliutaId) {
+          if (Number(item.Balansas) < Number(valueFrom)) {
+            document.querySelector(".value1").innerHTML =
+              "Nepakankamas balansas";
+            valid = false;
+          }
+        }
+      });
+    }
+    if (valid) {
+      request
+        .post("http://localhost/api/pinigine_kriptovaliuta/exchange.php")
+        .send({
+          exchangeFromValue: valueFrom,
+          exchangeFromId: pickedFrom,
+          exchangeToValue: valueTo,
+          exchangeToId: pickedTo,
+          walletId: Wallet.getId()
+        })
+        .set("Content-Type", "application/json")
+        .then(res => {
+          document.querySelector(".response").innerHTML = res.body.message;
+          request
+            .get(`http://localhost/api/pinigine/getById.php?${User.getId()}`)
+            .set("Content-Type", "application/json")
+            .then(res => {
+              window.sessionStorage.setItem(
+                "wallet",
+                JSON.stringify(res.body.pinigine)
+              );
+              setTimeout(() => window.location.reload(), 1000);
+            })
+            .catch(err => {
+              console.dir(err);
+            });
+        })
+        .catch(err => {
+          console.dir(err);
+        });
     }
   }
 
@@ -197,6 +266,7 @@ class Exchange extends React.Component {
                 <span className="error value2" />
               </div>
             </div>
+            <div className="response" />
             <button
               type="button"
               className="btn btn-primary"

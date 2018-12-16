@@ -8,14 +8,14 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/klausimas.php';
+include_once '../objects/paskyra.php';
  
 // instantiate database and product object
 $database = new Database();
 $db = $database->getConnection();
  
 // initialize object
-$klausimas = new Klausimas($db);
+$paskyra = new Paskyra($db);
  if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
      // The request is using the POST method
 	 http_response_code(200);
@@ -23,20 +23,23 @@ $klausimas = new Klausimas($db);
 	 echo json_encode(array("msesage" => "Viskas ok"));
 }
 else {
-	$code = $klausimas->getAll();
+	$code = $paskyra->getAll();
 	
 	if($code != null)
 	{
-		$klausimai = array();
+		$paskyros = array();
 		$i = 0;
 		while($row = mysqli_fetch_assoc($code)) {
 			http_response_code(200);
-			$klausimai[$i++] = $row;
+			$paskyros[$i++] = $row;
 			
 		}
-		echo json_encode($klausimai);
+		echo json_encode($paskyros);
 	}
 	else  echo json_encode(array("msesage" => "Įvyko klaida"));
+	/*http_response_code(200);
+	if ($code != null) echo json_encode(array("paskyra" => $code));
+	else echo json_encode(array("message" => "Ivyko klaida"));*/
 
 }
  

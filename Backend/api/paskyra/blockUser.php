@@ -24,11 +24,12 @@ $paskyra = new Paskyra($db);
 }
 else {
 	// check if more than 0 record found
-	$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-	$code = $paskyra->blockUser(parse_url($url, PHP_URL_QUERY));
-
-	http_response_code(200);
-	if ($code != null) echo json_encode(array("paskyra" => $code));
+    $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    
+    if($code = $paskyra->blockUser(parse_url($url, PHP_URL_QUERY)))
+    {
+        echo json_encode(array("message" => "Paskyra užblokuota"));
+    }
 	else echo json_encode(array("message" => "Ivyko klaida"));
 
 }

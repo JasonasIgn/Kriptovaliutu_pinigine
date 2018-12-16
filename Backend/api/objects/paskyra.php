@@ -109,7 +109,7 @@ class Paskyra{
 		 
 			$stmt = $this->conn->prepare($query);
 			$stmt->execute();
-			return $stmt->errno;
+			return $stmt;
 		}
 		else return null;
 	}

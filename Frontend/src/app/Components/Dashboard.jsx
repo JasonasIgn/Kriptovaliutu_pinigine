@@ -9,7 +9,9 @@ import { User } from "../../resources/scripts/UserService";
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      myCryptos: []
+    };
   }
   componentDidMount() {
     request
@@ -23,6 +25,37 @@ class Dashboard extends React.Component {
       })
       .catch(err => {
         console.dir(err);
+      });
+
+    request
+      .get(
+        `http://localhost/api/pinigine_kriptovaliuta/getById.php?${Wallet.getId()}`
+      )
+      .then(res => {
+        res.body.kriptovaliutos.forEach(item => {
+          request
+            .get("https://api.coinlore.com/api/ticker/")
+            .query({ id: item.fk_KriptovaliutaId })
+            .then(res => {
+              let divItem = (
+                <div className="card text-white bg-primary mb-3">
+                  <div className="card-header">
+                    {res.body[0].name}
+                    <div className="actions-container">
+                      <img src={InfoIcon} />
+                      <img src={TransferIcon} />
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <h4 className="card-title">
+                      {`${item.Balansas} ${res.body[0].symbol}`}
+                    </h4>
+                  </div>
+                </div>
+              );
+              this.setState({ myCryptos: [...this.state.myCryptos, divItem] });
+            });
+        });
       });
   }
   render() {
@@ -55,54 +88,7 @@ class Dashboard extends React.Component {
           </div>
           <div className="crypto-container">
             <h2 className="title">Kriptovaliutos</h2>
-            <div className="card text-white bg-primary mb-3">
-              <div className="card-header">
-                Bitcoin
-                <div className="actions-container">
-                  <img src={InfoIcon} />
-                  <img src={TransferIcon} />
-                </div>
-              </div>
-              <div className="card-body">
-                <h4 className="card-title">0.0001512 BTC</h4>
-              </div>
-            </div>
-            <div className="card text-white bg-primary mb-3">
-              <div className="card-header">
-                Bitcoin
-                <div className="actions-container">
-                  <img src={InfoIcon} />
-                  <img src={TransferIcon} />
-                </div>
-              </div>
-              <div className="card-body">
-                <h4 className="card-title">0.0001512 BTC</h4>
-              </div>
-            </div>
-            <div className="card text-white bg-primary mb-3">
-              <div className="card-header">
-                Bitcoin
-                <div className="actions-container">
-                  <img src={InfoIcon} />
-                  <img src={TransferIcon} />
-                </div>
-              </div>
-              <div className="card-body">
-                <h4 className="card-title">0.0001512 BTC</h4>
-              </div>
-            </div>
-            <div className="card text-white bg-primary mb-3">
-              <div className="card-header">
-                Bitcoin
-                <div className="actions-container">
-                  <img src={InfoIcon} />
-                  <img src={TransferIcon} />
-                </div>
-              </div>
-              <div className="card-body">
-                <h4 className="card-title">0.0001512 BTC</h4>
-              </div>
-            </div>
+            {this.state.myCryptos}
           </div>
         </div>
         <QuestionButton />

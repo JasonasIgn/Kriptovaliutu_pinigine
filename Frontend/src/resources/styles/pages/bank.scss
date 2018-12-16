@@ -1,0 +1,12 @@
+.bank-deposit {
+  margin-bottom: 50px;
+  margin-top: 40px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .deposit-form {
+      margin-top: 50px;
+    }
+  }
+}

@@ -4,5 +4,26 @@
       margin-top: 40px;
       text-align: center;
     }
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .form-group {
+        width: 100%;
+      }
+      .horizontal {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        .half {
+          width: 45%;
+        }
+      }
+      .btn {
+        max-width: 208px;
+        width: 100%;
+        margin-top: 30px;
+      }
+    }
   }
 }

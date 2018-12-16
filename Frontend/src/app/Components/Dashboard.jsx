@@ -38,11 +38,21 @@ class Dashboard extends React.Component {
             .query({ id: item.fk_KriptovaliutaId })
             .then(res => {
               let divItem = (
-                <div className="card text-white bg-primary mb-3">
+                <div
+                  className="card text-white bg-primary mb-3"
+                  key={res.body[0].id}
+                >
                   <div className="card-header">
                     {res.body[0].name}
                     <div className="actions-container">
-                      <img src={InfoIcon} />
+                      <img
+                        src={InfoIcon}
+                        onClick={() => {
+                          window.location.href = `/cryptocurrency?id=${
+                            res.body[0].id
+                          }`;
+                        }}
+                      />
                       <img src={TransferIcon} />
                     </div>
                   </div>

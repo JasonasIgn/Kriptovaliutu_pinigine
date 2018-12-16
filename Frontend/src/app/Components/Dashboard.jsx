@@ -1,13 +1,29 @@
 import React from "react";
 import TransferIcon from "../../resources/images/icon-transfer.png";
 import InfoIcon from "../../resources/images/icon-info.png";
+import request from "superagent";
 import QuestionButton from "./QuestionButton";
 import { Wallet } from "../../resources/scripts/WalletService";
+import { User } from "../../resources/scripts/UserService";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+  componentDidMount() {
+    request
+      .get(`http://localhost/api/pinigine/getById.php?${User.getId()}`)
+      .set("Content-Type", "application/json")
+      .then(res => {
+        window.sessionStorage.setItem(
+          "wallet",
+          JSON.stringify(res.body.pinigine)
+        );
+      })
+      .catch(err => {
+        console.dir(err);
+      });
   }
   render() {
     return (

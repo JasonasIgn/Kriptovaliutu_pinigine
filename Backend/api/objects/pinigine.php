@@ -44,7 +44,7 @@ class Pinigine{
 		 
 	}
     // read pinigine
-    function getById(){
+    function getById($id){
         // select all query
         $query = "SELECT * FROM pinigine WHERE fk_PaskyraId='{$id}'";
     
@@ -54,6 +54,7 @@ class Pinigine{
 		{
 			return $result->fetch_assoc();
 		}
+		else return null;
     }
 	
 	function addToBalance($id, $suma)

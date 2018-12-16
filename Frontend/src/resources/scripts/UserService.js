@@ -5,6 +5,14 @@ export class User {
       return user.Vardas;
     } else return null;
   }
+
+  static getId() {
+    if (window.sessionStorage.getItem("user")) {
+      let user = JSON.parse(window.sessionStorage.getItem("user"));
+      return user.Id;
+    } else return null;
+  }
+
   static logout() {
     window.location.href = "/";
     window.sessionStorage.removeItem("user");

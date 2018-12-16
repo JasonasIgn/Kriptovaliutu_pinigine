@@ -36,7 +36,7 @@ else {
 			$klausimai[$i++] = $row;
 			
 		}
-		echo json_encode($klausimai);
+		echo json_encode(array("klausimai" =>$klausimai));
 	}
 	else  echo json_encode(array("msesage" => "Įvyko klaida"));
 }

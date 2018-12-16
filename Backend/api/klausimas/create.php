@@ -40,7 +40,7 @@ else {
 			http_response_code(200);
 	 
 			// tell the user
-			echo json_encode(array("message" => "Sekmingai papildyta"));
+			echo json_encode(array("message" => "Sekminga išsiųsta"));
 		}
 	 
 		// if unable to create the product, tell the user

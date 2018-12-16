@@ -1,38 +1,37 @@
 import React from "react";
 import InfoIcon from "../../resources/images/icon-info.png";
 import request from "superagent";
+import { User } from "../../resources/scripts/UserService";
 class MailList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       information: null,
-      mails: []
+      questions: []
     };
   }
   getInformation() {
-    let cryptoArray = [];
-    request.get("https://api.coinlore.com/api/tickers/").then(res => {
-      this.setState({ information: res.body });
-      res.body.data.forEach((item, index) => {
-        let cryptoItem = (
-          <tr key={index}>
-            <th scope="row">{item.rank}</th>
-            <td>{item.name}</td>
-            <td>{item.price_usd || "-"} $</td>
-            <td className="flex-row">
-              {item.market_cap_usd || "-"} $
-              <a href={`/cryptocurrency?id=${item.id}`}>
-                <img src={InfoIcon} />
-              </a>
-            </td>
-          </tr>
-        );
-        cryptoArray = [...cryptoArray, cryptoItem];
+    let array = [];
+    request
+      .get(`http://localhost/api/klausimas/getById.php?${User.getId()}`)
+      .then(res => {
+        res.body.klausimai.forEach((item, index) => {
+          console.log(item);
+          let optItem = (
+            <tr key={index}>
+              <th scope="row">{index + 1}</th>
+              <th scope="row">{item.Klausimas}</th>
+              <th scope="row">{item.Atsakytas != 0 ? "jo" : "-"}</th>
+            </tr>
+          );
+          array = [...array, optItem];
+        });
+        this.setState({ questions: array });
       });
-      this.setState({ cryptocurrencies: cryptoArray });
-    });
   }
-  componentWillMount() {}
+  componentDidMount() {
+    this.getInformation();
+  }
 
   render() {
     return (
@@ -40,17 +39,14 @@ class MailList extends React.Component {
         <div className="container" style={{ justifyContent: "flex-start" }}>
           <h1 className="title">Žinutės</h1>
           <table className="table table-hover">
-            <tbody>
-              <tr
-                onClick={() => {
-                  console.log("asd");
-                }}
-              >
+            <thead>
+              <tr>
+                <th scope="row">#</th>
                 <th scope="row">Jūs klausėte</th>
-                <th scope="row">tekstas</th>
-                <th scope="row">Atsakytas?</th>
+                <th scope="row">Atsakymas</th>
               </tr>
-            </tbody>
+            </thead>
+            <tbody>{this.state.questions}</tbody>
           </table>
         </div>
       </div>

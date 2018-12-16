@@ -15,6 +15,7 @@ import Bank from "./Pages/Bank";
 import Withdraw from "./Pages/Withdraw";
 import Exchange from "./Pages/Exchange";
 import Send from "./Pages/Send";
+import Profile from "./Pages/Profile";
 
 class App extends Component {
   constructor(props) {
@@ -59,6 +60,7 @@ class App extends Component {
           <Route path="/withdraw" component={Withdraw} />
           <Route path="/exchange" component={Exchange} />
           <Route path="/mail" component={MailList} />
+          <Route path="/profile" component={Profile} />
           <Route
             exact
             path="/cryptocurrency-list"

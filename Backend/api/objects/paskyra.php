@@ -47,6 +47,34 @@ class Paskyra{
 		 
 	}
 	
+	
+	function update(){
+	 
+		// sanitize
+		$this->Id=htmlspecialchars(strip_tags($this->Id));
+		$this->Vardas=htmlspecialchars(strip_tags($this->Vardas));
+		$this->Pavarde=htmlspecialchars(strip_tags($this->Pavarde));
+		$this->Adresas=htmlspecialchars(strip_tags($this->Adresas));
+		$this->Tel_numeris=htmlspecialchars(strip_tags($this->Tel_numeris));
+		$this->Gimimo_data=htmlspecialchars(strip_tags($this->Gimimo_data));
+		$this->Lytis=htmlspecialchars(strip_tags($this->Lytis));
+	 
+		// query to insert record
+		$query = "UPDATE
+					" . $this->table_name . "
+				SET
+					Vardas='{$this->Vardas}', Pavarde='{$this->Pavarde}', Adresas='{$this->Adresas}', Tel_numeris='{$this->Tel_numeris}', Gimimo_data='{$this->Gimimo_data}', Lytis='{$this->Lytis}' 
+				WHERE Id='{$this->Id}'";
+	 
+		// prepare query
+		$stmt = $this->conn->prepare($query);
+	 
+		// execute query
+		$stmt->execute();
+		return $stmt->errno;
+		 
+	}
+	
 	function getId ($email) {
 		$query = "SELECT Id FROM
 					" . $this->table_name . "
@@ -61,6 +89,20 @@ class Paskyra{
 		else return null;
 	}
 	
+	function getById ($id) {
+		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota, Adresas, Tel_numeris, Lytis, Gimimo_data FROM
+					" . $this->table_name . "
+				WHERE
+					Id='{$id}'";
+	 
+		$result = $this->conn->query($query);
+		if ($result->num_rows > 0)
+		{
+			return $result->fetch_assoc();
+		}
+		else return null;
+	}
+	
 	function login(){
 	 
 		// sanitize
@@ -68,7 +110,7 @@ class Paskyra{
 		$this->Slaptazodis=htmlspecialchars(strip_tags($this->Slaptazodis));
 	 
 		// query to insert record
-		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota FROM
+		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota, Adresas, Tel_numeris, Lytis, Gimimo_data FROM
 					" . $this->table_name . "
 				WHERE
 					El_pastas='{$this->El_pastas}' AND Slaptazodis='{$this->Slaptazodis}'";

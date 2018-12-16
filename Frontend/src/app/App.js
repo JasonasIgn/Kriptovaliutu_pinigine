@@ -20,6 +20,7 @@ class App extends Component {
       token: window.sessionStorage.getItem("token") || null
     };
   }
+  componentDidMount() {}
   render() {
     return (
       <Router>

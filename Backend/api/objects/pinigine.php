@@ -44,7 +44,7 @@ class Pinigine{
 		 
 	}
     // read pinigine
-    function getById($id){
+    function getById(){
         // select all query
         $query = "SELECT * FROM pinigine WHERE fk_PaskyraId='{$id}'";
     
@@ -55,6 +55,24 @@ class Pinigine{
 			return $result->fetch_assoc();
 		}
     }
+	
+	function addToBalance($id, $suma)
+	{
+		if ($id != null && $suma != null) 
+		{
+		$query = "UPDATE
+						" . $this->table_name . "
+					SET
+						Balansas_EUR = Balansas_EUR + {$suma} WHERE Id='{$id}'";
+		 $stmt = $this->conn->prepare($query);
+		 
+			// execute query
+			//return $query;
+			$stmt->execute();
+			return $stmt->errno;
+		}
+		else return null;
+	}
 
     function readBalanse(){
         $query = "SELECT Balansas_USD, Balansas_EUR FROM pinigine WHERE fk_PaskyraId = ? LIMIT 0,1";
@@ -71,6 +89,8 @@ class Pinigine{
         $this->Balansas_USD = $row['Balansas_USD'];
         $this->Balansas_EUR = $row['Balansas_EUR'];
     }
+	
+	
     function readBalanseFromID($Id){
         $query = "SELECT Balansas_USD, Balansas_EUR FROM pinigine WHERE fk_PaskyraId =".$Id." LIMIT 0,1";
     

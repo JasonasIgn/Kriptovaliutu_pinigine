@@ -49,10 +49,11 @@ else {
 				$piniginesInfo = $pinigine->getById($code['Id']);
 				if ($piniginesInfo) {
 					
-				echo json_encode(array("token" => $token, "user" => $code, "wallet" => $piniginesInfo));
+					echo json_encode(array("token" => $token, "user" => $code, "wallet" => $piniginesInfo));
 				}
 				else {
 					http_response_code(400);
+					echo json_encode(array("message" => "Pinigine neegzistuoja"));
 				}
 			}
 			else {

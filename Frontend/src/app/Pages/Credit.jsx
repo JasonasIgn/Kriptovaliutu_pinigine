@@ -1,80 +1,106 @@
 import React from "react";
 import request from "superagent";
+import { Wallet } from "../../resources/scripts/WalletService";
 
 class Credit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      cards: []
+    };
   }
 
-  handleRegistration() {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  componentDidMount() {
+    let array = [];
+    request
+      .get(`http://localhost/api/kortele/get.php?${Wallet.getId()}`)
+      .set("Content-Type", "application/json")
+      .then(res => {
+        if (res.body.korteles) {
+          res.body.korteles.forEach((item, index) => {
+            let arrayItem = (
+              <tr
+                key={index}
+                onClick={e => {
+                  document.querySelectorAll("tr").forEach(item => {
+                    item.classList.remove("active");
+                  });
+                  e.currentTarget.classList.toggle("active");
+                  if (
+                    !document
+                      .querySelector(".deposit-form")
+                      .classList.contains("show")
+                  ) {
+                    document
+                      .querySelector(".deposit-form")
+                      .classList.add("show");
+                  }
+                }}
+              >
+                <th scope="row">{index + 1}</th>
+                <td>{item.Numeris}</td>
+                <td>{item.Galioja_iki}</td>
+              </tr>
+            );
+            array = [...array, arrayItem];
+          });
+          this.setState({ cards: array });
+        }
+      })
+      .catch(err => {
+        console.dir(err);
+      });
+  }
+
+  handleAddCreditCard() {
     document.querySelectorAll(".error").forEach(item => {
       item.innerHTML = "";
     });
     let valid = true;
-    const firstNameSelector = "firstName";
-    const lastNameSelector = "lastName";
-    const emailSelector = "email";
-    const passwordSelector = "password";
-    const passwordRepeatSelector = "repeatPassword";
+    const numberSelector = "Numeris";
+    const codeSelector = "Kodas";
+    const validitySelector = "Galioja_iki";
 
     const responseField = document.querySelector(".response");
     responseField.innerHTML = "";
 
-    const firstNameField = document.getElementById(firstNameSelector);
-    const lastNameField = document.getElementById(lastNameSelector);
-    const emailField = document.getElementById(emailSelector);
-    const passwordField = document.getElementById(passwordSelector);
-    const repeatPasswordField = document.getElementById(passwordRepeatSelector);
+    const numberField = document.getElementById(numberSelector);
+    const codeField = document.getElementById(codeSelector);
+    const validityField = document.getElementById(validitySelector);
 
-    const firstNameErrorField = document.querySelector(`.${firstNameSelector}`);
-    const lastNameErrorField = document.querySelector(`.${lastNameSelector}`);
-    const emailErrorField = document.querySelector(`.${emailSelector}`);
-    const passwordErrorField = document.querySelector(`.${passwordSelector}`);
-    const repeatPasswordErrorField = document.querySelector(
-      `.${passwordRepeatSelector}`
-    );
+    const numberErrorField = document.querySelector(`.${numberSelector}`);
+    const codeErrorField = document.querySelector(`.${codeSelector}`);
+    const validityErrorField = document.querySelector(`.${validitySelector}`);
 
-    if (!firstNameField.value) {
-      firstNameErrorField.innerHTML = "Laukas privalomas";
+    if (!numberField.value) {
+      numberErrorField.innerHTML = "Laukas privalomas";
       valid = false;
     }
-    if (!lastNameField.value) {
-      lastNameErrorField.innerHTML = "Laukas privalomas";
+    if (!codeField.value) {
+      codeErrorField.innerHTML = "Laukas privalomas";
+      valid = false;
+    } else if (codeField.value.length !== 3) {
+      codeErrorField.innerHTML = "Kodas turi buti 3 skaitmenu";
       valid = false;
     }
-    if (!emailField.value) {
-      emailErrorField.innerHTML = "Laukas privalomas";
-      valid = false;
-    } else if (!re.test(emailField.value)) {
-      emailErrorField.innerHTML = "Patikrinkite duomenis";
-      valid = false;
-    }
-    if (!passwordField.value) {
-      passwordErrorField.innerHTML = "Laukas privalomas";
-      valid = false;
-    }
-    if (!repeatPasswordField.value) {
-      repeatPasswordErrorField.innerHTML = "Laukas privalomas";
-      valid = false;
-    } else if (passwordField.value !== repeatPasswordField.value) {
-      repeatPasswordErrorField.innerHTML = "Slaptažodžiai nesutampa";
+    if (!validityField.value) {
+      validityErrorField.innerHTML = "Laukas privalomas";
       valid = false;
     }
 
     if (valid) {
       request
-        .post("http://localhost/api/paskyra/create.php")
+        .post("http://localhost/api/kortele/create.php")
         .send({
-          Vardas: firstNameField.value,
-          Pavarde: lastNameField.value,
-          El_pastas: emailField.value,
-          Slaptazodis: passwordField.value
+          Numeris: numberField.value,
+          Kodas: codeField.value,
+          Galioja_iki: validityField.value,
+          fk_pinigineId: Wallet.getId()
         })
         .set("Content-Type", "application/json")
         .then(res => {
           responseField.innerHTML = res.body.message;
+          window.location.reload();
         })
         .catch(err => {
           console.dir(err);
@@ -84,57 +110,77 @@ class Credit extends React.Component {
 
   render() {
     return (
-      <div className="register">
+      <div className="credit">
         <div className="container">
           <h4> Jūsų kortelės: </h4>
-          <form>
-            <h1 className="title"> Registracija</h1>
+          <div className="content">
+            <table className="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Numeris</th>
+                  <th scope="col">Galioja iki</th>
+                </tr>
+              </thead>
+              <tbody>{this.state.cards}</tbody>
+            </table>
+            <form className="deposit-form">
+              <h4 className="title"> Papildyti sąskaitą</h4>
+              <div className="form-group">
+                <label className="col-form-label" htmlFor="value">
+                  Eur
+                </label>
+                <input type="text" className="form-control" id="value" />
+                <span className="error value" />
+              </div>
+              <div className="response" />
+              <button
+                type="button"
+                onClick={this.handleAddCreditCard}
+                className="btn btn-primary"
+              >
+                Papildyti
+              </button>
+            </form>
+          </div>
+          <a
+            href="javascript:void(0)"
+            onClick={() =>
+              document.querySelector(".add").classList.toggle("show")
+            }
+          >
+            Pridėti kortelę
+          </a>
+          <form className="add">
+            <h1 className="title"> Pridėti kortelę</h1>
             <div className="form-group">
-              <label className="col-form-label" htmlFor="firstName">
-                Vardas
+              <label className="col-form-label" htmlFor="Numeris">
+                Numeris
               </label>
-              <input type="text" className="form-control" id="firstName" />
-              <span className="error firstName" />
+              <input type="text" className="form-control" id="Numeris" />
+              <span className="error Numeris" />
             </div>
             <div className="form-group">
-              <label className="col-form-label" htmlFor="lastName">
-                Pavardė
+              <label className="col-form-label" htmlFor="Kodas">
+                Kodas
               </label>
-              <input type="text" className="form-control" id="lastName" />
-              <span className="error lastName" />
+              <input type="text" className="form-control" id="Kodas" />
+              <span className="error Kodas" />
             </div>
             <div className="form-group">
-              <label className="col-form-label" htmlFor="email">
-                El. paštas
+              <label className="col-form-label" htmlFor="Galioja_iki">
+                Galioja iki
               </label>
-              <input type="email" className="form-control" id="email" />
-              <span className="error email" />
-            </div>
-            <div className="form-group">
-              <label className="col-form-label" htmlFor="password">
-                Slaptažodis
-              </label>
-              <input type="password" className="form-control" id="password" />
-              <span className="error password" />
-            </div>
-            <div className="form-group">
-              <label className="col-form-label" htmlFor="repeatPassword">
-                Pakartokite slaptažodį
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="repeatPassword"
-              />
-              <span className="error repeatPassword" />
+              <input type="date" className="form-control" id="Galioja_iki" />
+              <span className="error Galioja_iki" />
             </div>
             <div className="response" />
             <button
               type="button"
-              onClick={this.handleRegistration}
+              onClick={this.handleAddCreditCard}
               className="btn btn-primary"
             >
-              Registruotis
+              Pridėti
             </button>
           </form>
         </div>

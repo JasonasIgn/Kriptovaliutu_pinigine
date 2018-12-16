@@ -1,0 +1,40 @@
+.credit {
+  margin-top: 40px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .content {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      align-items: center;
+      .table {
+        width: 50%;
+        tr {
+          cursor: pointer;
+          &.active {
+            background-color: rgb(155, 157, 255);
+          }
+        }
+      }
+      .deposit-form {
+        display: none;
+        margin-left: 50px;
+        &.show {
+          display: flex;
+        }
+      }
+    }
+  }
+  a {
+    margin-bottom: 35px;
+  }
+  .add {
+    display: none;
+    margin-bottom: 40px;
+    &.show {
+      display: flex;
+    }
+  }
+}

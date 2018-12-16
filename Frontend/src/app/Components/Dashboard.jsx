@@ -21,7 +21,11 @@ class Dashboard extends React.Component {
               <h4 className="currency">EUR</h4>
             </div>
             <div className="actions-container">
-              <button type="button" className="btn btn-secondary">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => (window.location.href = "/deposit")}
+              >
                 Papildyti
               </button>
               <button type="button" className="btn btn-secondary">

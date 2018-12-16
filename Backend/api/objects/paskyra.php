@@ -86,7 +86,7 @@ class Paskyra{
 	function getAll()
 	{
 		// query to insert record Teises, Id, Vardas, Pavarde, El_pastas, Blokuota
-		$query = "SELECT Teises, Vardas, Pavarde, El_pastas, Blokuota FROM " . $this->table_name;
+		$query = "SELECT Teises, Vardas, El_pastas, Blokuota FROM " . $this->table_name;
 	 
 		// prepare query
 		$result = $this->conn->query($query);

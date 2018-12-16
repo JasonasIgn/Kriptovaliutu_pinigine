@@ -27,12 +27,16 @@ else {
 	
 	if($code != null)
 	{
+		$klausimai = array();
+		$i = 0;
 		while($row = mysqli_fetch_assoc($code)) {
 			http_response_code(200);
-			if ($row != null) echo json_encode(array("klausimas" => $row));
-			else echo json_encode(array("message" => "Ivyko klaida"));
+			$klausimai[$i++] = $row;
+			
 		}
+		echo json_encode($klausimai);
 	}
+	else  echo json_encode(array("msesage" => "Įvyko klaida"));
 
 }
  

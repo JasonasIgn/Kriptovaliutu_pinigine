@@ -27,12 +27,16 @@ else {
 	
 	if($code != null)
 	{
+		$paskyros = array();
+		$i = 0;
 		while($row = mysqli_fetch_assoc($code)) {
 			http_response_code(200);
-			if ($row != null) echo json_encode(array("paskyra" => $row));
-			else echo json_encode(array("message" => "Ivyko klaida"));
+			$paskyros[$i++] = $row;
+			
 		}
+		echo json_encode($paskyros);
 	}
+	else  echo json_encode(array("msesage" => "Įvyko klaida"));
 	/*http_response_code(200);
 	if ($code != null) echo json_encode(array("paskyra" => $code));
 	else echo json_encode(array("message" => "Ivyko klaida"));*/

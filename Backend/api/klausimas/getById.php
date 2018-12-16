@@ -26,11 +26,15 @@ else {
 	// check if more than 0 record found
 	$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 	$code = $klausimas->getById(parse_url($url, PHP_URL_QUERY));
-
-	http_response_code(200);
-	if ($code != null) echo json_encode(array("klausimas" => $code));
-	else echo json_encode(array("message" => "Ivyko klaida"));
-
+	
+	if($code != null)
+	{
+		while($row = mysqli_fetch_assoc($code)) {
+			http_response_code(200);
+			if ($row != null) echo json_encode(array("klausimas" => $row));
+			else echo json_encode(array("message" => "Ivyko klaida"));
+		}
+	}
 }
  
 // no products found will be here

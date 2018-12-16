@@ -23,12 +23,18 @@ $klausimas = new Klausimas($db);
 	 echo json_encode(array("msesage" => "Viskas ok"));
 }
 else {
-	$code = $klausimas->getAll(parse_url($url, PHP_URL_QUERY));
-
-	http_response_code(200);
-	if ($code != null) echo json_encode(array("klausimas" => $code));
-	else echo json_encode(array("message" => "Ivyko klaida"));
+	$code = $klausimas->getAll();
+	
+	if($code != null)
+	{
+		while($row = mysqli_fetch_assoc($code)) {
+			http_response_code(200);
+			if ($row != null) echo json_encode(array("klausimas" => $row));
+			else echo json_encode(array("message" => "Ivyko klaida"));
+		}
+	}
 
 }
  
 // no products found will be here
+?>

@@ -48,7 +48,7 @@ class Klausimas{
         $result = $this->conn->query($query);
 		if ($result->num_rows > 0)
 		{
-			return $result->fetch_assoc();
+			return $result;
 		}
 		else return null;
     }
@@ -60,7 +60,7 @@ class Klausimas{
         $result = $this->conn->query($query);
 		if ($result->num_rows > 0)
 		{
-			return $result->fetch_assoc();
+			return $result;
 		}
 		else return null;
     }

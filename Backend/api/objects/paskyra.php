@@ -82,4 +82,51 @@ class Paskyra{
 		}
 		 return null;
 	}
+
+	function getAll()
+	{
+		// query to insert record Teises, Id, Vardas, Pavarde, El_pastas, Blokuota
+		$query = "SELECT Teises, Vardas, Pavarde, El_pastas, Blokuota FROM " . $this->table_name;
+	 
+		// prepare query
+		$result = $this->conn->query($query);
+	 
+		if ($result->num_rows > 0)
+		{
+			return $result;
+		}
+		 return null;
+	}
+
+	function blockUser($id)
+	{
+		// query to insert record
+		if($id != null)
+		{
+			$query = "UPDATE " . $this->table_name . "
+			SET
+				Blokuota=1 WHERE Id='{$id}'";
+		 
+			$stmt = $this->conn->prepare($query);
+			$stmt->execute();
+			return $stmt->errno;
+		}
+		else return null;
+	}
+	function changeUserLevel($id, $teises)
+	{
+		if($id != null && $teises!=null)
+		{
+			// query to insert record
+			$query = "UPDATE
+			" . $this->table_name . "
+			SET
+				Teises='{$teises}' WHERE Id='{$id}'";
+		
+			$stmt = $this->conn->prepare($query);
+			$stmt->execute();
+			return $stmt->errno;
+		}
+		else return null;
+	}
 }

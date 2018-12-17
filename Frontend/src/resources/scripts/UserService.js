@@ -48,6 +48,13 @@ export class User {
     } else return null;
   }
 
+  static canSeeSystemInfo() {
+    if (window.sessionStorage.getItem("user")) {
+      let user = JSON.parse(window.sessionStorage.getItem("user"));
+      return user.fk_Sistemos_informacijaId == 1;
+    } else return null;
+  }
+
   static getBirthday() {
     if (window.sessionStorage.getItem("user")) {
       let user = JSON.parse(window.sessionStorage.getItem("user"));

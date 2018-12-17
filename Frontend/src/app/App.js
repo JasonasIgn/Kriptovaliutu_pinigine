@@ -18,6 +18,7 @@ import Send from "./Pages/Send";
 import Profile from "./Pages/Profile";
 import AccountList from "./Pages/AccountList";
 import EditAccount from "./Pages/EditAccount";
+import SystemInfo from "./Pages/SystemInfo";
 
 class App extends Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class App extends Component {
           <Route path="/withdraw" component={Withdraw} />
           <Route path="/account-list" component={AccountList} />
           <Route path="/edit-account" component={EditAccount} />
+          <Route path="/system-info" component={SystemInfo} />
           <Route path="/exchange" component={Exchange} />
           <Route path="/mail" component={MailList} />
           <Route path="/profile" component={Profile} />

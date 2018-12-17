@@ -75,6 +75,36 @@ class Paskyra{
 		 
 	}
 	
+	function updateForAdmin(){
+	 
+		// sanitize
+		$this->Id=htmlspecialchars(strip_tags($this->Id));
+		$this->Vardas=htmlspecialchars(strip_tags($this->Vardas));
+		$this->Pavarde=htmlspecialchars(strip_tags($this->Pavarde));
+		$this->Adresas=htmlspecialchars(strip_tags($this->Adresas));
+		$this->Tel_numeris=htmlspecialchars(strip_tags($this->Tel_numeris));
+		$this->Gimimo_data=htmlspecialchars(strip_tags($this->Gimimo_data));
+		$this->Lytis=htmlspecialchars(strip_tags($this->Lytis));
+		$this->Blokuota=htmlspecialchars(strip_tags($this->Blokuota));
+		$this->Teises=htmlspecialchars(strip_tags($this->Teises));
+		$this->fk_Sistemos_informacijaId=htmlspecialchars(strip_tags($this->fk_Sistemos_informacijaId));
+	 
+		// query to insert record
+		$query = "UPDATE
+					" . $this->table_name . "
+				SET
+					Vardas='{$this->Vardas}', Pavarde='{$this->Pavarde}', Adresas='{$this->Adresas}', Tel_numeris='{$this->Tel_numeris}', Gimimo_data='{$this->Gimimo_data}', Lytis='{$this->Lytis}', Blokuota='{$this->Blokuota}', Teises='{$this->Teises}', fk_Sistemos_informacijaId='{$this->fk_Sistemos_informacijaId}' 
+				WHERE Id='{$this->Id}'";
+	 
+		// prepare query
+		$stmt = $this->conn->prepare($query);
+	 
+		// execute query
+		$stmt->execute();
+		return $stmt->errno;
+		 
+	}
+	
 	function getId ($email) {
 		$query = "SELECT Id FROM
 					" . $this->table_name . "
@@ -90,7 +120,7 @@ class Paskyra{
 	}
 	
 	function getById ($id) {
-		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota, Adresas, Tel_numeris, Lytis, Gimimo_data FROM
+		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota, Adresas, Tel_numeris, Lytis, Gimimo_data, fk_Sistemos_informacijaId FROM
 					" . $this->table_name . "
 				WHERE
 					Id='{$id}'";

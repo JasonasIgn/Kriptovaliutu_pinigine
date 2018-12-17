@@ -27,13 +27,16 @@ class EditAccount extends React.Component {
       });
   }
 
-  handleRegistration() {
+  handleEdit() {
     const firstNameSelector = "firstName";
     const lastNameSelector = "lastName";
     const addressSelector = "address";
     const phoneSelector = "phone";
     const genderSelector = "gender";
     const birthdaySelector = "birthday";
+    const blockedSelector = "blocked";
+    const privilegesSelector = "privileges";
+    const systemInfoSelector = "systemInfo";
 
     const responseField = document.querySelector(".response");
     responseField.innerHTML = "";
@@ -44,11 +47,14 @@ class EditAccount extends React.Component {
     const phoneField = document.getElementById(phoneSelector);
     const genderField = document.getElementById(genderSelector);
     const birthdayField = document.getElementById(birthdaySelector);
+    const blockedField = document.getElementById(blockedSelector);
+    const privilegesField = document.getElementById(privilegesSelector);
+    const systemInfoField = document.getElementById(systemInfoSelector);
 
     const urlParams = new URLSearchParams(window.location.search);
 
     request
-      .post("http://localhost/api/paskyra/update.php")
+      .post("http://localhost/api/paskyra/updateForAdmin.php")
       .send({
         Id: Number(urlParams.get("id")),
         Vardas: firstNameField.value,
@@ -56,7 +62,10 @@ class EditAccount extends React.Component {
         Adresas: addressField.value,
         Tel_numeris: phoneField.value,
         Gimimo_data: birthdayField.value,
-        Lytis: genderField.value
+        Lytis: genderField.value,
+        Blokuota: blockedField.value,
+        Teises: privilegesField.value,
+        fk_Sistemos_informacijaId: systemInfoField.value
       })
       .set("Content-Type", "application/json")
       .then(res => {
@@ -159,15 +168,58 @@ class EditAccount extends React.Component {
                 defaultValue={this.state.account.Lytis}
               >
                 <option value=""> Pasirinkite</option>
-                <option value="0"> Vyras</option>
                 <option value="1"> Moteris</option>
+                <option value="2"> Vyras</option>
               </select>
               <span className="error gender" />
+            </div>
+            <div className="form-group">
+              <label className="col-form-label" htmlFor="blocked">
+                Blokuota
+              </label>
+              <select
+                className="form-control"
+                id="blocked"
+                defaultValue={this.state.account.Blokuota}
+              >
+                <option value="0"> Ne</option>
+                <option value="1"> Taip</option>
+              </select>
+              <span className="error blocked" />
+            </div>
+            <div className="form-group">
+              <label className="col-form-label" htmlFor="privileges">
+                Teises
+              </label>
+              <select
+                className="form-control"
+                id="privileges"
+                defaultValue={this.state.account.Teises}
+              >
+                <option value="1"> Klientas</option>
+                <option value="2"> Klientų aptarnavimas</option>
+                <option value="3"> Administratorius</option>
+              </select>
+              <span className="error privileges" />
+            </div>
+            <div className="form-group">
+              <label className="col-form-label" htmlFor="systemInfo">
+                Prieinama sistemos informacija
+              </label>
+              <select
+                className="form-control"
+                id="systemInfo"
+                defaultValue={this.state.account.fk_Sistemos_informacijaId}
+              >
+                <option value="0"> Ne</option>
+                <option value="1"> Taip</option>
+              </select>
+              <span className="error systemInfo" />
             </div>
             <div className="response" />
             <button
               type="button"
-              onClick={this.handleRegistration}
+              onClick={this.handleEdit}
               className="btn btn-primary"
             >
               Keisti duomenis

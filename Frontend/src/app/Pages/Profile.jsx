@@ -150,8 +150,8 @@ class Profile extends React.Component {
                 defaultValue={User.getGender()}
               >
                 <option value=""> Pasirinkite</option>
-                <option value="0"> Vyras</option>
                 <option value="1"> Moteris</option>
+                <option value="2"> Vyras</option>
               </select>
               <span className="error gender" />
             </div>

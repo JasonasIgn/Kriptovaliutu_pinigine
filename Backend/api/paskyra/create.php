@@ -13,11 +13,14 @@ include_once '../config/database.php';
 include_once '../objects/paskyra.php';
 
 include_once '../objects/pinigine.php';
+
+include_once '../objects/sistemos_informacija.php';
  
 $database = new Database();
 $db = $database->getConnection();;
 $paskyra = new Paskyra($db);
 $pinigine = new Pinigine($db);
+$sistemos_informacija = new Sistemos_informacija($db);
  
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -49,11 +52,21 @@ else {
 		$code = $paskyra->create();
 		// create the product
 		if($code == 0){
-			$code = $pinigine->create($paskyra->getId($paskyra->El_pastas));
-			// set response code - 201 created
-			http_response_code(201);
-	 
-			echo json_encode(array("message" => "Paskyra sukurta"));
+			$code = $sistemos_informacija->IncrementUsers();
+			if ($code == 0) {
+				
+				$code = $pinigine->create($paskyra->getId($paskyra->El_pastas));
+				// set response code - 201 created
+				http_response_code(201);
+		 
+				echo json_encode(array("message" => "Paskyra sukurta"));
+			}
+			else 
+			{
+				http_response_code(200);
+		 
+				echo json_encode(array("message" => "Ivyko klaida (system info)"));
+			}
 			// tell the user
 		}
 		else {

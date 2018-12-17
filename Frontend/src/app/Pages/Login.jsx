@@ -47,13 +47,18 @@ class Login extends React.Component {
         .set("Content-Type", "application/json")
         .then(res => {
           if (res.body.message) responseField.innerHTML = res.body.message;
-          window.sessionStorage.setItem("user", JSON.stringify(res.body.user));
-          window.sessionStorage.setItem("token", res.body.token);
-          window.sessionStorage.setItem(
-            "wallet",
-            JSON.stringify(res.body.wallet)
-          );
-          window.location.href = "/";
+          if (res.body.user) {
+            window.sessionStorage.setItem(
+              "user",
+              JSON.stringify(res.body.user)
+            );
+            window.sessionStorage.setItem("token", res.body.token);
+            window.sessionStorage.setItem(
+              "wallet",
+              JSON.stringify(res.body.wallet)
+            );
+            window.location.href = "/";
+          }
         })
         .catch(err => {
           responseField.innerHTML = "Blogi prisijungimo duomenys";

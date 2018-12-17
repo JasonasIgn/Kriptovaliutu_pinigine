@@ -139,6 +139,19 @@ class Paskyra{
 		$this->El_pastas=htmlspecialchars(strip_tags($this->El_pastas));
 		$this->Slaptazodis=htmlspecialchars(strip_tags($this->Slaptazodis));
 	 
+		$query = "SELECT Id FROM
+					" . $this->table_name . "
+				WHERE
+					El_pastas='{$this->El_pastas}' AND Slaptazodis='{$this->Slaptazodis}' AND Blokuota=1";
+	 
+		// prepare query
+		$result = $this->conn->query($query);
+	 
+		if ($result->num_rows > 0)
+		{
+			return 123;
+		}
+	 
 		// query to insert record
 		$query = "SELECT Teises, Id, Vardas, Pavarde, El_pastas, Blokuota, Adresas, Tel_numeris, Lytis, Gimimo_data FROM
 					" . $this->table_name . "

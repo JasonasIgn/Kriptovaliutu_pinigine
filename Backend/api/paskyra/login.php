@@ -40,30 +40,39 @@ else {
 		$paskyra->Slaptazodis = $data->Slaptazodis;
 	 
 		$code = $paskyra->login();
-		// create the product
-		if($code){
-			
-			$token = $tokenas->createLogin($code['Teises'], $code['Id']);
-			if ($token) {
-				http_response_code(200);
-				$piniginesInfo = $pinigine->getById($code['Id']);
-				if ($piniginesInfo) {
-					
-					echo json_encode(array("token" => $token, "user" => $code, "wallet" => $piniginesInfo));
-				}
-				else {
-					http_response_code(400);
-					echo json_encode(array("message" => "Pinigine neegzistuoja"));
-				}
-			}
-			else {
-				http_response_code(400);
-			}
-			
+		if ($code == 123) {	//Blokuota paskyra
+			http_response_code(200);
+			echo json_encode(array("message" => "Jūsų paskyra yra užblokuota"));
 		}
 		else {
-			http_response_code(400);
+			if($code){
+			
+				$token = $tokenas->createLogin($code['Teises'], $code['Id']);
+				if ($token) {
+					http_response_code(200);
+					$piniginesInfo = $pinigine->getById($code['Id']);
+					if ($piniginesInfo) {
+						
+						echo json_encode(array("token" => $token, "user" => $code, "wallet" => $piniginesInfo));
+					}
+					else {
+						http_response_code(200);
+						echo json_encode(array("message" => "Ivyko klaida gaunant pinigines info"));
+					}
+				}
+				else {
+					http_response_code(200);
+					echo json_encode(array("message" => "Ivyko klaida gaunant token"));
+				}
+			
+			}
+			else {
+				http_response_code(200);
+				echo json_encode(array("message" => "Ivyko klaida gaunant vartotojo info"));
+			}
 		}
+		// create the product
+		
 	}
 	 
 	// tell the user data is incomplete
